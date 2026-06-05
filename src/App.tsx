@@ -163,68 +163,77 @@ const App: React.FC = () => {
       case 'gallery':
         return (
           <div>
-            {/* Gallery Top Bar */}
-            <div className="sticky top-0 z-30 bg-gray-950/95 backdrop-blur-md border-b border-gray-800 p-4 md:px-8">
+            {/* Gallery Top Bar - Fully Responsive */}
+            <div className="sticky top-0 z-30 bg-gray-950/95 backdrop-blur-md border-b border-gray-800 p-3 sm:p-4 md:px-8">
               <div className="max-w-7xl mx-auto">
-                <div className="flex flex-col md:flex-row gap-3 items-center justify-between mb-3">
-                  <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">📁 Gallery</h1>
-                  <div className="relative w-full md:w-64">
+                {/* Title + Search */}
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 items-stretch sm:items-center justify-between mb-3 ml-12 lg:ml-0">
+                  <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">📁 Gallery</h1>
+                  <div className="relative w-full sm:w-64">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Search..." className="w-full bg-gray-800 border border-gray-700 rounded-lg pl-10 pr-4 py-2 text-sm text-white outline-none" />
+                    <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Search..." className="w-full bg-gray-800 border border-gray-700 rounded-lg pl-10 pr-4 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-blue-500" />
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-2 items-center justify-between">
-                  <div className="flex flex-wrap gap-2">
+                {/* Filters - scroll on mobile */}
+                <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center justify-between">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 overflow-x-auto">
                     <div className="relative">
-                      <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-                      <select value={filterType} onChange={e => setFilterType(e.target.value)} className="bg-gray-800 border border-gray-700 rounded-lg pl-9 pr-8 py-2 text-sm text-white outline-none appearance-none">
+                      <Filter className="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+                      <select value={filterType} onChange={e => setFilterType(e.target.value)} className="bg-gray-800 border border-gray-700 rounded-lg pl-7 pr-6 py-1.5 sm:py-2 text-xs sm:text-sm text-white outline-none appearance-none cursor-pointer">
                         <option value="all">All</option><option value="image">Images</option><option value="video">Videos</option><option value="audio">Audio</option>
                       </select>
                     </div>
-                    <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)} className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white outline-none appearance-none">
+                    <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)} className="bg-gray-800 border border-gray-700 rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm text-white outline-none appearance-none cursor-pointer max-w-[120px] sm:max-w-none truncate">
                       {categories.map(c => <option key={c} value={c}>{c === 'all' ? 'All Categories' : c}</option>)}
                     </select>
                     <div className="relative">
-                      <SlidersHorizontal className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-                      <select value={sortBy} onChange={e => setSortBy(e.target.value as SortBy)} className="bg-gray-800 border border-gray-700 rounded-lg pl-9 pr-8 py-2 text-sm text-white outline-none appearance-none">
-                        <option value="title">Title</option><option value="category">Category</option><option value="type">Type</option><option value="recent">Most Viewed</option>
+                      <SlidersHorizontal className="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+                      <select value={sortBy} onChange={e => setSortBy(e.target.value as SortBy)} className="bg-gray-800 border border-gray-700 rounded-lg pl-7 pr-6 py-1.5 sm:py-2 text-xs sm:text-sm text-white outline-none appearance-none cursor-pointer">
+                        <option value="title">Title</option><option value="category">Cat</option><option value="type">Type</option><option value="recent">Views</option>
                       </select>
                     </div>
-                    <button onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')} className="p-2 rounded-lg bg-gray-800 border border-gray-700 hover:bg-gray-700">{sortOrder === 'asc' ? <SortAsc className="w-4 h-4" /> : <SortDesc className="w-4 h-4" />}</button>
-                    <button onClick={() => setShowFavoritesOnly(!showFavoritesOnly)} className={`p-2 rounded-lg ${showFavoritesOnly ? 'bg-pink-500' : 'bg-gray-800 border border-gray-700'}`}><Heart className={`w-4 h-4 ${showFavoritesOnly ? 'fill-current' : ''}`} /></button>
+                    <button onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')} className="p-1.5 sm:p-2 rounded-lg bg-gray-800 border border-gray-700 hover:bg-gray-700">{sortOrder === 'asc' ? <SortAsc className="w-4 h-4" /> : <SortDesc className="w-4 h-4" />}</button>
+                    <button onClick={() => setShowFavoritesOnly(!showFavoritesOnly)} className={`p-1.5 sm:p-2 rounded-lg ${showFavoritesOnly ? 'bg-pink-500' : 'bg-gray-800 border border-gray-700'}`}><Heart className={`w-4 h-4 ${showFavoritesOnly ? 'fill-current' : ''}`} /></button>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1.5 sm:gap-2">
                     <div className="flex rounded-lg border border-gray-700 overflow-hidden">
-                      <button onClick={() => setViewMode('grid')} className={`p-2 ${viewMode === 'grid' ? 'bg-blue-500' : 'bg-gray-800'}`}><Grid3x3 className="w-4 h-4" /></button>
-                      <button onClick={() => setViewMode('list')} className={`p-2 ${viewMode === 'list' ? 'bg-blue-500' : 'bg-gray-800'}`}><List className="w-4 h-4" /></button>
+                      <button onClick={() => setViewMode('grid')} className={`p-1.5 sm:p-2 ${viewMode === 'grid' ? 'bg-blue-500' : 'bg-gray-800'}`}><Grid3x3 className="w-4 h-4" /></button>
+                      <button onClick={() => setViewMode('list')} className={`p-1.5 sm:p-2 ${viewMode === 'list' ? 'bg-blue-500' : 'bg-gray-800'}`}><List className="w-4 h-4" /></button>
                     </div>
-                    <button onClick={() => setTheme(isDark ? 'light' : 'dark')} className="p-2 rounded-lg bg-gray-800 border border-gray-700 text-yellow-400">{isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}</button>
-                    <button onClick={() => setShowStats(true)} className="p-2 rounded-lg bg-gray-800 border border-gray-700"><BarChart3 className="w-4 h-4" /></button>
-                    <button onClick={() => setShowShortcuts(true)} className="p-2 rounded-lg bg-gray-800 border border-gray-700"><Keyboard className="w-4 h-4" /></button>
+                    <button onClick={() => setTheme(isDark ? 'light' : 'dark')} className="p-1.5 sm:p-2 rounded-lg bg-gray-800 border border-gray-700 text-yellow-400">{isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}</button>
+                    <button onClick={() => setShowStats(true)} className="p-1.5 sm:p-2 rounded-lg bg-gray-800 border border-gray-700"><BarChart3 className="w-4 h-4" /></button>
+                    <button onClick={() => setShowShortcuts(true)} className="p-1.5 sm:p-2 rounded-lg bg-gray-800 border border-gray-700"><Keyboard className="w-4 h-4" /></button>
                   </div>
                 </div>
-                <p className="mt-2 text-xs text-gray-500">Showing {filteredItems.length} of {allItems.length} items</p>
+                <p className="mt-2 text-xs text-gray-500">Showing {filteredItems.length} of {allItems.length}</p>
               </div>
             </div>
 
             {/* Gallery Content */}
-            <div className="max-w-7xl mx-auto p-4 md:p-8">
+            <div className="max-w-7xl mx-auto p-3 sm:p-4 md:p-8">
+              {/* Quick guide banner */}
+              <div className="mb-4 sm:mb-6 rounded-2xl border border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 p-3 sm:p-4">
+                <p className="text-xs sm:text-sm text-yellow-200 leading-relaxed">
+                  <strong className="text-yellow-300">💡 Smart Playlist Tip:</strong> JSON mein title ke aage <code className="bg-black/40 px-1.5 py-0.5 rounded text-yellow-300 font-bold">(css)</code>, <code className="bg-black/40 px-1.5 py-0.5 rounded text-yellow-300 font-bold">(html)</code>, <code className="bg-black/40 px-1.5 py-0.5 rounded text-yellow-300 font-bold">(english)</code> aise daalo → ek hi playlist mein group ho jayega! Same tag wale sab items + images + videos ek saath dikhenge.
+                </p>
+              </div>
+
               {/* Top stats */}
-              <div className="grid gap-4 sm:grid-cols-3 mb-8">
-                <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/10 border border-blue-500/30 rounded-2xl p-5">
-                  <div className="flex items-center gap-2 mb-2"><ImageIcon className="w-5 h-5 text-blue-400" /><span className="font-semibold">Images</span></div>
-                  <p className="text-3xl font-bold text-white">{allItems.filter(i => i.type === 'image').length}</p>
-                  <button onClick={() => setFilterType('image')} className="mt-2 text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg">View All</button>
+              <div className="grid gap-3 sm:gap-4 grid-cols-3 mb-6 sm:mb-8">
+                <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/10 border border-blue-500/30 rounded-xl sm:rounded-2xl p-3 sm:p-5">
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1 sm:mb-2"><ImageIcon className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" /><span className="text-xs sm:text-sm font-semibold">Images</span></div>
+                  <p className="text-xl sm:text-3xl font-bold text-white">{allItems.filter(i => i.type === 'image').length}</p>
+                  <button onClick={() => setFilterType('image')} className="mt-1.5 sm:mt-2 text-[10px] sm:text-xs bg-blue-600 hover:bg-blue-500 text-white px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg w-full sm:w-auto">View</button>
                 </div>
-                <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/10 border border-purple-500/30 rounded-2xl p-5">
-                  <div className="flex items-center gap-2 mb-2"><Film className="w-5 h-5 text-purple-400" /><span className="font-semibold">Videos</span></div>
-                  <p className="text-3xl font-bold text-white">{allItems.filter(i => i.type === 'video').length}</p>
-                  <button onClick={() => setFilterType('video')} className="mt-2 text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-lg">View All</button>
+                <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/10 border border-purple-500/30 rounded-xl sm:rounded-2xl p-3 sm:p-5">
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1 sm:mb-2"><Film className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" /><span className="text-xs sm:text-sm font-semibold">Videos</span></div>
+                  <p className="text-xl sm:text-3xl font-bold text-white">{allItems.filter(i => i.type === 'video').length}</p>
+                  <button onClick={() => setFilterType('video')} className="mt-1.5 sm:mt-2 text-[10px] sm:text-xs bg-purple-600 hover:bg-purple-500 text-white px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg w-full sm:w-auto">View</button>
                 </div>
-                <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/10 border border-green-500/30 rounded-2xl p-5">
-                  <div className="flex items-center gap-2 mb-2"><Music className="w-5 h-5 text-green-400" /><span className="font-semibold">Audio</span></div>
-                  <p className="text-3xl font-bold text-white">{allItems.filter(i => i.type === 'audio').length}</p>
-                  <button onClick={() => setFilterType('audio')} className="mt-2 text-xs bg-green-600 hover:bg-green-500 text-white px-3 py-1.5 rounded-lg">View All</button>
+                <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/10 border border-green-500/30 rounded-xl sm:rounded-2xl p-3 sm:p-5">
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1 sm:mb-2"><Music className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" /><span className="text-xs sm:text-sm font-semibold">Audio</span></div>
+                  <p className="text-xl sm:text-3xl font-bold text-white">{allItems.filter(i => i.type === 'audio').length}</p>
+                  <button onClick={() => setFilterType('audio')} className="mt-1.5 sm:mt-2 text-[10px] sm:text-xs bg-green-600 hover:bg-green-500 text-white px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg w-full sm:w-auto">View</button>
                 </div>
               </div>
 
@@ -244,6 +253,10 @@ const App: React.FC = () => {
                 <PlaylistView
                   items={allItems}
                   onOpenPlaylist={(pl) => setActivePlaylist(pl)}
+                  onSelectDirectItem={(item) => {
+                    const idx = filteredItems.findIndex(i => i.id === item.id);
+                    setSelectedItemIndex(idx >= 0 ? idx : 0);
+                  }}
                   isDark={isDark}
                 />
               )}
