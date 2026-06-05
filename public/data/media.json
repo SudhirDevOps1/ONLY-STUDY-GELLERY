@@ -1,6 +1,70 @@
 [
   {
     "id": 1,
+    "title": "English Class Day 1",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "category": "english-class",
+    "description": "English speaking practice - Day 1"
+  },
+  {
+    "id": 2,
+    "title": "English Class Day 2",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=9bZkp7q19f0",
+    "category": "english-class",
+    "description": "English speaking practice - Day 2"
+  },
+  {
+    "id": 3,
+    "title": "English Class Day 3",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+    "category": "english-class",
+    "description": "English speaking practice - Day 3"
+  },
+  {
+    "id": 4,
+    "title": "English Class Day 4",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=kJQP7kiw5Fk",
+    "category": "english-class",
+    "description": "English speaking practice - Day 4"
+  },
+  {
+    "id": 5,
+    "title": "English Class Day 5",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=JGwWNGJdvx8",
+    "category": "english-class",
+    "description": "English speaking practice - Day 5"
+  },
+  {
+    "id": 6,
+    "title": "CSS Tutorial Part 1",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=1Rs2ND1ryYc",
+    "category": "css",
+    "description": "CSS tutorial for beginners"
+  },
+  {
+    "id": 7,
+    "title": "CSS Tutorial Part 2",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=3T4eE9pXmrc",
+    "category": "css",
+    "description": "Advanced CSS selectors"
+  },
+  {
+    "id": 8,
+    "title": "CSS Tutorial Part 3",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=-n2LNt_wI68",
+    "category": "css",
+    "description": "CSS flexbox and grid"
+  },
+  {
+    "id": 9,
     "title": "Sunset View",
     "type": "image",
     "src": "https://images.unsplash.com/photo-1495562569060-2eec283d3391?auto=format&fit=crop&q=80&w=2000",
@@ -8,7 +72,7 @@
     "description": "A beautiful sunset over the mountains."
   },
   {
-    "id": 2,
+    "id": 10,
     "title": "Ocean Waves",
     "type": "video",
     "src": "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
@@ -16,7 +80,7 @@
     "description": "Sample Big Buck Bunny video."
   },
   {
-    "id": 3,
+    "id": 11,
     "title": "Nature Audio",
     "type": "audio",
     "src": "https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg",
@@ -24,7 +88,7 @@
     "description": "Relaxing ocean sounds."
   },
   {
-    "id": 4,
+    "id": 12,
     "title": "Lofi Girl Radio",
     "type": "video",
     "src": "https://www.youtube.com/watch?v=jfKfPfyJRdk",
@@ -32,7 +96,7 @@
     "description": "Lofi hip hop radio - beats to relax/study to"
   },
   {
-    "id": 5,
+    "id": 13,
     "title": "Abstract Art",
     "type": "image",
     "src": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=2000",
@@ -40,23 +104,23 @@
     "description": "Beautiful abstract colorful paint."
   },
   {
-    "id": 6,
+    "id": 14,
     "title": "Mega.nz File",
     "type": "video",
     "src": "https://mega.nz/file/mCwnjJJY#FpivI93bhoVJaXnsAJQXZTSN22NlzgROR9Gii7UrYa0",
     "category": "personal",
-    "description": "⚠️ Mega.nz file - Opens in new tab due to CORS restrictions. Use embed URL format for better experience."
+    "description": "⚠️ Mega.nz file - Opens in new tab due to CORS restrictions."
   },
   {
-    "id": 7,
+    "id": 15,
     "title": "Image from ImgBB",
     "type": "image",
     "src": "https://i.ibb.co/67m5CR3B/image.jpg",
     "category": "personal",
-    "description": "Image hosted on ImgBB - Direct link"
+    "description": "Image hosted on ImgBB"
   },
   {
-    "id": 8,
+    "id": 16,
     "title": "Image from ImgBB 2",
     "type": "image",
     "src": "https://i.ibb.co/r2XvYrhP/image.jpg",

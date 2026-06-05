@@ -14,7 +14,8 @@ import { StatsDashboard } from './components/StatsDashboard';
 import { KeyboardShortcuts } from './components/KeyboardShortcuts';
 import { ToastContainer, useToast } from './components/Toast';
 import { storage } from './utils/storage';
-import { isYouTubeUrl } from './utils/mediaUtils';
+import { PlaylistView, PlaylistDetail } from './components/PlaylistView';
+import { Playlist } from './utils/playlistEngine';
 
 // Section imports
 import { ToolsSection } from './components/sections/ToolsSection';
@@ -70,6 +71,7 @@ const App: React.FC = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 1024);
   const [activeSection, setActiveSection] = useState('gallery');
+  const [activePlaylist, setActivePlaylist] = useState<Playlist | null>(null);
 
   const { toasts, showToast, dismissToast } = useToast();
   const isDark = theme === 'dark';
@@ -96,14 +98,7 @@ const App: React.FC = () => {
     return result;
   }, [allItems, searchTerm, filterType, filterCategory, sortBy, sortOrder, showFavoritesOnly, refreshKey]);
 
-  const playlistGroups = useMemo(() => {
-    const g = new Map<string, MediaItem[]>();
-    allItems.filter(i => i.type === 'video' && isYouTubeUrl(i.src)).forEach(i => {
-      const key = i.category || 'YouTube';
-      g.set(key, [...(g.get(key) || []), i]);
-    });
-    return Array.from(g.entries()).filter(([, v]) => v.length >= 2);
-  }, [allItems]);
+  // Smart Playlists now handled by playlistEngine - playlistGroups removed
 
   const handleNext = useCallback(() => {
     if (selectedItemIndex !== null && selectedItemIndex < filteredItems.length - 1) setSelectedItemIndex(selectedItemIndex + 1);
@@ -233,32 +228,24 @@ const App: React.FC = () => {
                 </div>
               </div>
 
-              {/* YouTube Playlists */}
-              {playlistGroups.length > 0 && (
-                <div className="mb-8 rounded-2xl border border-red-500/30 bg-red-500/5 p-5">
-                  <h2 className="text-lg font-bold text-white mb-1">🎬 YouTube Playlists (Auto-grouped)</h2>
-                  <p className="text-xs text-gray-400 mb-4">Same category videos are grouped automatically</p>
-                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    {playlistGroups.map(([name, group]) => {
-                      const ytId = group[0].src.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/)?.[1];
-                      return (
-                        <button key={name} onClick={() => { setFilterType('video'); setFilterCategory(group[0].category || 'all'); }} className="bg-gray-800/50 hover:bg-gray-800 border border-gray-700 rounded-xl p-3 text-left">
-                          <div className="flex gap-3">
-                            <div className="relative w-24 h-16 bg-black rounded-lg overflow-hidden flex-shrink-0">
-                              {ytId && <img src={`https://img.youtube.com/vi/${ytId}/mqdefault.jpg`} alt="" className="w-full h-full object-cover" />}
-                              <span className="absolute bottom-1 right-1 bg-black/80 text-white text-[10px] px-1.5 py-0.5 rounded">{group.length}</span>
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              <p className="text-sm font-semibold text-white truncate capitalize">{name}</p>
-                              <p className="text-xs text-gray-400">{group.length} videos</p>
-                              <p className="text-xs text-red-400 truncate mt-1">▶️ {group[0].title}</p>
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+              {/* SMART PLAYLISTS - Fully Dynamic */}
+              {activePlaylist ? (
+                <PlaylistDetail
+                  playlist={activePlaylist}
+                  onBack={() => setActivePlaylist(null)}
+                  onSelectItem={(idx) => {
+                    const itemFromPlaylist = activePlaylist.items[idx];
+                    const globalIdx = filteredItems.findIndex(i => i.id === itemFromPlaylist.id);
+                    setSelectedItemIndex(globalIdx >= 0 ? globalIdx : 0);
+                  }}
+                  isDark={isDark}
+                />
+              ) : (
+                <PlaylistView
+                  items={allItems}
+                  onOpenPlaylist={(pl) => setActivePlaylist(pl)}
+                  isDark={isDark}
+                />
               )}
 
               {/* Grid/List */}
