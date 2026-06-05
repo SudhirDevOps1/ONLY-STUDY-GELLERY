@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "title": "Sunset View",
+    "type": "image",
+    "src": "https://images.unsplash.com/photo-1495562569060-2eec283d3391?auto=format&fit=crop&q=80&w=2000",
+    "category": "nature",
+    "description": "A beautiful sunset over the mountains."
+  },
+  {
+    "id": 2,
+    "title": "Ocean Waves",
+    "type": "video",
+    "src": "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
+    "category": "nature",
+    "description": "Sample Big Buck Bunny video."
+  },
+  {
+    "id": 3,
+    "title": "Nature Audio",
+    "type": "audio",
+    "src": "https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg",
+    "category": "music",
+    "description": "Relaxing ocean sounds."
+  },
+  {
+    "id": 4,
+    "title": "Lofi Girl Radio",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=jfKfPfyJRdk",
+    "category": "music",
+    "description": "Lofi hip hop radio - beats to relax/study to"
+  },
+  {
+    "id": 5,
+    "title": "Abstract Art",
+    "type": "image",
+    "src": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=2000",
+    "category": "abstract",
+    "description": "Beautiful abstract colorful paint."
+  },
+  {
+    "id": 6,
+    "title": "Mega.nz File",
+    "type": "video",
+    "src": "https://mega.nz/file/mCwnjJJY#FpivI93bhoVJaXnsAJQXZTSN22NlzgROR9Gii7UrYa0",
+    "category": "personal",
+    "description": "⚠️ Mega.nz file - Opens in new tab due to CORS restrictions. Use embed URL format for better experience."
+  },
+  {
+    "id": 7,
+    "title": "Image from ImgBB",
+    "type": "image",
+    "src": "https://i.ibb.co/67m5CR3B/image.jpg",
+    "category": "personal",
+    "description": "Image hosted on ImgBB - Direct link"
+  },
+  {
+    "id": 8,
+    "title": "Image from ImgBB 2",
+    "type": "image",
+    "src": "https://i.ibb.co/r2XvYrhP/image.jpg",
+    "category": "personal",
+    "description": "Second image from ImgBB"
+  }
+]
