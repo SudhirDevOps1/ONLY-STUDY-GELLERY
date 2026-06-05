@@ -1,130 +1,146 @@
 [
   {
     "id": 1,
-    "title": "English Class Day 1",
+    "title": "English Class - Day 1: Introduction",
     "type": "video",
-    "src": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    "category": "english-class",
-    "description": "English speaking practice - Day 1"
+    "src": "https://www.youtube.com/watch?v=ajdRvxDWH4w",
+    "tags": ["english-class", "beginner", "playlist-1"],
+    "description": "Lesson 1 of spoken English course"
   },
   {
     "id": 2,
-    "title": "English Class Day 2",
+    "title": "English Class - Day 2: Greetings",
     "type": "video",
-    "src": "https://www.youtube.com/watch?v=9bZkp7q19f0",
-    "category": "english-class",
-    "description": "English speaking practice - Day 2"
+    "src": "https://www.youtube.com/watch?v=ajdRvxDWH4w&list=PLGjplNEQ1it_oTvuLRNqXfz_v_0pq6unW&index=2",
+    "tags": ["english-class", "speaking", "playlist-1"],
+    "description": "Common greetings and responses"
   },
   {
     "id": 3,
-    "title": "English Class Day 3",
+    "title": "English Class - Day 3: Vocabulary",
     "type": "video",
-    "src": "https://www.youtube.com/watch?v=jNQXAC9IVRw",
-    "category": "english-class",
-    "description": "English speaking practice - Day 3"
+    "src": "https://www.youtube.com/watch?v=ajdRvxDWH4w&list=PLGjplNEQ1it_oTvuLRNqXfz_v_0pq6unW&index=3",
+    "tags": ["english-class", "vocabulary", "playlist-1"],
+    "description": "Daily use English words"
   },
   {
     "id": 4,
-    "title": "English Class Day 4",
+    "title": "English Class - Day 4: Grammar Basics",
     "type": "video",
-    "src": "https://www.youtube.com/watch?v=kJQP7kiw5Fk",
-    "category": "english-class",
-    "description": "English speaking practice - Day 4"
+    "src": "https://www.youtube.com/watch?v=ajdRvxDWH4w&list=PLGjplNEQ1it_oTvuLRNqXfz_v_0pq6unW&index=4",
+    "tags": ["english-class", "grammar", "playlist-1"],
+    "description": "Present simple tense explained"
   },
   {
     "id": 5,
-    "title": "English Class Day 5",
+    "title": "English Class - Day 5: Conversation",
     "type": "video",
-    "src": "https://www.youtube.com/watch?v=JGwWNGJdvx8",
-    "category": "english-class",
-    "description": "English speaking practice - Day 5"
+    "src": "https://www.youtube.com/watch?v=ajdRvxDWH4w&list=PLGjplNEQ1it_oTvuLRNqXfz_v_0pq6unW&index=5",
+    "tags": ["english-class", "conversation", "playlist-1"],
+    "description": "Real-life dialogue practice"
   },
   {
     "id": 6,
-    "title": "CSS Tutorial Part 1",
+    "title": "CSS Tutorial - Flexbox Mastery",
     "type": "video",
-    "src": "https://www.youtube.com/watch?v=1Rs2ND1ryYc",
-    "category": "css",
-    "description": "CSS tutorial for beginners"
+    "src": "https://www.youtube.com/watch?v=t2_Q2BRzeEE",
+    "tags": ["css", "webdev", "flexbox", "playlist-2"],
+    "description": "Complete guide to CSS Flexbox"
   },
   {
     "id": 7,
-    "title": "CSS Tutorial Part 2",
+    "title": "CSS Tutorial - Grid Layout",
     "type": "video",
-    "src": "https://www.youtube.com/watch?v=3T4eE9pXmrc",
-    "category": "css",
-    "description": "Advanced CSS selectors"
+    "src": "https://www.youtube.com/watch?v=t2_Q2BRzeEE&list=PLGjplNEQ1it8-0CmoljS5yeV-GlKSUEt0&index=2",
+    "tags": ["css", "webdev", "grid", "playlist-2"],
+    "description": "Modern CSS Grid from zero to hero"
   },
   {
     "id": 8,
-    "title": "CSS Tutorial Part 3",
+    "title": "CSS Tutorial - Animations & Transitions",
     "type": "video",
-    "src": "https://www.youtube.com/watch?v=-n2LNt_wI68",
-    "category": "css",
-    "description": "CSS flexbox and grid"
+    "src": "https://www.youtube.com/watch?v=t2_Q2BRzeEE&list=PLGjplNEQ1it8-0CmoljS5yeV-GlKSUEt0&index=3",
+    "tags": ["css", "animation", "webdev", "playlist-2"],
+    "description": "Smooth keyframe animations"
   },
   {
     "id": 9,
-    "title": "Sunset View",
-    "type": "image",
-    "src": "https://images.unsplash.com/photo-1495562569060-2eec283d3391?auto=format&fit=crop&q=80&w=2000",
-    "category": "nature",
-    "description": "A beautiful sunset over the mountains."
+    "title": "CSS Tutorial - Responsive Design",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=t2_Q2BRzeEE&list=PLGjplNEQ1it8-0CmoljS5yeV-GlKSUEt0&index=4",
+    "tags": ["css", "responsive", "webdev", "playlist-2"],
+    "description": "Media queries and mobile-first design"
   },
   {
     "id": 10,
-    "title": "Ocean Waves",
+    "title": "CSS Tutorial - Variables & Theming",
     "type": "video",
-    "src": "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
-    "category": "nature",
-    "description": "Sample Big Buck Bunny video."
+    "src": "https://www.youtube.com/watch?v=t2_Q2BRzeEE&list=PLGjplNEQ1it8-0CmoljS5yeV-GlKSUEt0&index=5",
+    "tags": ["css", "css-variables", "webdev", "playlist-2"],
+    "description": "Custom properties for dynamic themes"
   },
   {
     "id": 11,
-    "title": "Nature Audio",
-    "type": "audio",
-    "src": "https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg",
-    "category": "music",
-    "description": "Relaxing ocean sounds."
+    "title": "Sunset over mountains",
+    "type": "image",
+    "src": "https://i.ibb.co/67m5CR3B/image.jpg",
+    "tags": ["nature", "photography", "wallpaper"],
+    "description": "Golden hour view – personal shot"
   },
   {
     "id": 12,
-    "title": "Lofi Girl Radio",
-    "type": "video",
-    "src": "https://www.youtube.com/watch?v=jfKfPfyJRdk",
-    "category": "music",
-    "description": "Lofi hip hop radio - beats to relax/study to"
+    "title": "Abstract art gradient",
+    "type": "image",
+    "src": "https://i.ibb.co/r2XvYrhP/image.jpg",
+    "tags": ["art", "abstract", "colorful"],
+    "description": "Blend of modern abstract shapes"
   },
   {
     "id": 13,
-    "title": "Abstract Art",
+    "title": "Study motivation (Pomodoro)",
     "type": "image",
-    "src": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=2000",
-    "category": "abstract",
-    "description": "Beautiful abstract colorful paint."
+    "src": "https://images.unsplash.com/photo-1495562569060-2eec283d3391?auto=format&fit=crop&w=800",
+    "tags": ["study", "motivation", "productivity"],
+    "description": "Focus workspace aesthetic"
   },
   {
     "id": 14,
-    "title": "Mega.nz File",
+    "title": "Ocean waves for relaxation",
     "type": "video",
-    "src": "https://mega.nz/file/mCwnjJJY#FpivI93bhoVJaXnsAJQXZTSN22NlzgROR9Gii7UrYa0",
-    "category": "personal",
-    "description": "⚠️ Mega.nz file - Opens in new tab due to CORS restrictions."
+    "src": "https://www.youtube.com/watch?v=jfKfPfyJRdk",
+    "tags": ["music", "lofi", "study"],
+    "description": "Lofi beats – calm background"
   },
   {
     "id": 15,
-    "title": "Image from ImgBB",
-    "type": "image",
-    "src": "https://i.ibb.co/67m5CR3B/image.jpg",
-    "category": "personal",
-    "description": "Image hosted on ImgBB"
+    "title": "Deep focus classical",
+    "type": "audio",
+    "src": "https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg",
+    "tags": ["audio", "nature-sounds", "focus"],
+    "description": "Waves for concentration"
   },
   {
     "id": 16,
-    "title": "Image from ImgBB 2",
+    "title": "CSS hover effects demo",
     "type": "image",
-    "src": "https://i.ibb.co/r2XvYrhP/image.jpg",
-    "category": "personal",
-    "description": "Second image from ImgBB"
+    "src": "https://i.ibb.co/placeholder/css-hover.png",
+    "tags": ["css", "screenshot", "tutorial"],
+    "description": "Screenshot from CSS hover lesson"
+  },
+  {
+    "id": 17,
+    "title": "HTML structure basics",
+    "type": "image",
+    "src": "https://i.ibb.co/placeholder/html-semantic.png",
+    "tags": ["html", "beginner", "webdev"],
+    "description": "Visual guide to semantic HTML"
+  },
+  {
+    "id": 18,
+    "title": "JavaScript playground",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=W6NZfCO5SIk",
+    "tags": ["javascript", "coding", "tutorial"],
+    "description": "JS fundamentals part 1"
   }
 ]
