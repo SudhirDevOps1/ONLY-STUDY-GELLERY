@@ -1,77 +1,213 @@
 import { MediaItem } from '../types';
 
 // ============================================================
-// SMART PLAYLIST ENGINE - Production Level
-// 
-// Auto-detects playlists from:
-// 1. (tag) prefix in title - "(css) Day 1", "(html) Class 5"
-// 2. category field in JSON
-// 3. Keywords like "Day 1", "Part 2", etc.
-//
-// Items WITHOUT (tag) and not in playlist → "Direct Items"
+// PLAYLIST ENGINE - Auto-detect from (tag) prefix
+// Supports: (tag) videos, (tag) images, mixed, category, keyword
+// Example: "(html) Day 1" + "(html) Day 2" → HTML playlist
+//          "(htmlimg) Day 1 Notes" + "(htmlvid) Day 1 Video" → auto group
 // ============================================================
 
 export interface Playlist {
   id: string;
   name: string;
-  type: 'tag' | 'category' | 'keyword' | 'manual';
+  displayName: string;
+  type: 'tag' | 'category' | 'keyword';
   items: MediaItem[];
   count: number;
+  videoCount: number;
+  imageCount: number;
+  audioCount: number;
   icon: string;
   color: string;
-  description?: string;
+  description: string;
 }
 
 // ============================================================
-// CORE DETECTION
+// TAG EXTRACTION
 // ============================================================
 
-// Detect (tag) pattern in title - e.g. "(css) Day 1" → "css"
+// Extract (tag) from start of title - e.g. "(html) Day 1" → "html"
 export function extractTag(title: string): string | null {
   const match = title.match(/^\(([^)]+)\)/);
   return match ? match[1].trim().toLowerCase() : null;
 }
 
-// Remove tag from title - "(css) Day 1" → "Day 1"
+// Remove tag from title - "(html) Day 1" → "Day 1"
 export function removeTag(title: string): string {
   return title.replace(/^\([^)]+\)\s*/, '').trim();
 }
 
-// Extract sequence number - "Day 1" → 1, "Part 5" → 5
+// Beautify tag name - "cssvid" → "CSS Videos", "cssimg" → "CSS Images"
+export function beautifyTag(tag: string): string {
+  const t = tag.toLowerCase();
+  // Detect vid/video suffix
+  if (t.endsWith('vid') || t.endsWith('video') || t.endsWith('videos')) {
+    const base = t.replace(/(vid|video|videos)$/, '');
+    return `${base.toUpperCase()} Videos`;
+  }
+  // Detect img/image suffix
+  if (t.endsWith('img') || t.endsWith('image') || t.endsWith('images') || t.endsWith('pic') || t.endsWith('pics')) {
+    const base = t.replace(/(img|image|images|pic|pics)$/, '');
+    return `${base.toUpperCase()} Images`;
+  }
+  // Detect audio suffix
+  if (t.endsWith('aud') || t.endsWith('audio') || t.endsWith('song') || t.endsWith('songs') || t.endsWith('music')) {
+    const base = t.replace(/(aud|audio|song|songs|music)$/, '');
+    return `${base.toUpperCase()} Audio`;
+  }
+  return tag.toUpperCase();
+}
+
+// Get base tag for icon/color - "cssvid" → "css"
+export function getBaseTag(tag: string): string {
+  const t = tag.toLowerCase();
+  return t.replace(/(vid|video|videos|img|image|images|pic|pics|aud|audio|song|songs|music)$/, '') || t;
+}
+
+// Extract sequence number
 export function extractSequenceNumber(title: string): number {
   const cleaned = removeTag(title);
-  const match = cleaned.match(/(?:day|part|lesson|class|chapter|module|episode|tutorial|session|lecture)\s*[#:]?\s*(\d+)/i);
-  if (match) return parseInt(match[1]);
-  // Also try just leading number
-  const numMatch = cleaned.match(/^\s*(\d+)/);
-  if (numMatch) return parseInt(numMatch[1]);
+  const patterns = [
+    /(?:day|part|lesson|class|chapter|module|episode|tutorial|session|lecture|ch|ep|#)\s*[#:]?\s*(\d+)/i,
+    /^\s*(\d+)[\s\.\-:)]/,
+  ];
+  for (const pattern of patterns) {
+    const match = cleaned.match(pattern);
+    if (match) return parseInt(match[1]);
+  }
   return 9999;
 }
 
-// Detect keyword from title (no tag found case)
-export function extractKeyword(title: string): string | null {
-  const patterns = [
-    /\b(html|css|javascript|js|react|vue|angular|node|python|java|php|sql|mongodb|git|docker|aws|api|rest|graphql|typescript|ts|nextjs|tailwind|bootstrap|svelte|django|flask|spring|laravel|kotlin|swift|rust|go|ruby|scala|dart|flutter|express|fastapi|rails|jquery|ajax|json|xml|webpack|vite|npm|yarn|linux|bash|shell)\b/i,
-    /\b(english|hindi|spanish|french|german|chinese|japanese|korean|arabic|russian|portuguese|italian)\b/i,
-    /\b(math|physics|chemistry|biology|history|geography|economics|finance|accounting|statistics|calculus|algebra|geometry|trigonometry)\b/i,
-  ];
+// ============================================================
+// YOUTUBE THUMBNAIL
+// ============================================================
 
+export function getYoutubeId(url: string): string | null {
+  const patterns = [
+    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=))([^"&?\/\s]{11})/,
+    /(?:youtu\.be\/)([^"&?\/\s]{11})/,
+  ];
   for (const pattern of patterns) {
-    const match = title.match(pattern);
-    if (match) return match[1].toLowerCase();
+    const match = url.match(pattern);
+    if (match) return match[1];
   }
   return null;
 }
 
+export function getYoutubeThumbnail(url: string): string | null {
+  const id = getYoutubeId(url);
+  return id ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : null;
+}
+
+// Get thumbnail for any item
+export function getItemThumbnail(item: MediaItem): string | null {
+  if (item.type === 'image') return item.src;
+  return getYoutubeThumbnail(item.src);
+}
+
 // ============================================================
-// PLAYLIST GENERATION
+// ICON & COLOR MAPPING (extensive)
+// ============================================================
+
+function getCategoryIcon(name: string): string {
+  const n = name.toLowerCase();
+  const icons: Record<string, string> = {
+    // Programming languages
+    html: '🌐', html5: '🌐', htmlcss: '🎨',
+    css: '🎨', css3: '🎨', sass: '💅', scss: '💅', less: '🎨', tailwind: '🌊', bootstrap: '🅱', material: '🎨',
+    javascript: '⚡', js: '⚡', es6: '⚡', es7: '⚡',
+    typescript: '📘', ts: '📘',
+    react: '⚛️', reactjs: '⚛️', next: '▲', nextjs: '▲', gatsby: '🟣',
+    vue: '💚', vuejs: '💚', nuxt: '💚',
+    angular: '🔴', angularjs: '🔴',
+    svelte: '🧡', solid: '💙',
+    node: '💚', nodejs: '💚', express: '🚂', nest: '🦅', deno: '🦕',
+    python: '🐍', django: '🎸', flask: '🧪', fastapi: '⚡',
+    java: '☕', spring: '🌱', kotlin: '🟪',
+    php: '🐘', laravel: '🎭', wordpress: '📝',
+    ruby: '💎', rails: '🛤️',
+    go: '🐹', golang: '🐹',
+    rust: '🦀',
+    c: '🔤', cpp: '🔤', csharp: '🟦', dotnet: '🟦',
+    sql: '🗄️', mysql: '🐬', postgresql: '🐘', mongodb: '🍃', redis: '🟥', firebase: '🔥', supabase: '⚡',
+    git: '🔀', github: '🐙', gitlab: '🦊', bitbucket: '🪣',
+    docker: '🐳', kubernetes: '☸️', k8s: '☸️',
+    aws: '☁️', azure: '☁️', gcp: '☁️', cloud: '☁️',
+    api: '🔗', rest: '🔗', graphql: '◢', grpc: '📡',
+    // Languages
+    english: '🇬🇧', hindi: '🇮🇳', spanish: '🇪🇸', french: '🇫🇷',
+    german: '🇩🇪', chinese: '🇨🇳', japanese: '🇯🇵', korean: '🇰🇷',
+    arabic: '🇸🇦', urdu: '🇵🇰', bengali: '🇧🇩', tamil: '🇮🇳',
+    // Subjects
+    math: '📐', mathematics: '📐', algebra: '🔢', calculus: '∫', geometry: '📏', trigonometry: '📐', statistics: '📊',
+    physics: '⚛️', chemistry: '🧪', biology: '🧬', science: '🔬',
+    history: '📜', geography: '🗺️', civics: '🏛️', economics: '💹',
+    accounting: '🧾', business: '💼', finance: '💰', marketing: '📈',
+    philosophy: '🤔', psychology: '🧠', sociology: '👥',
+    // Media types
+    tutorial: '📚', course: '🎓', lecture: '🎤',
+    music: '🎵', song: '🎤', audio: '🎵', podcast: '🎙️',
+    nature: '🌿', wildlife: '🦁', travel: '✈️', food: '🍕', cooking: '🍳',
+    sports: '⚽', fitness: '💪', yoga: '🧘',
+    art: '🎨', design: '✏️', photography: '📷', drawing: '✏️',
+    // Other
+    personal: '👤', notes: '📝', screenshot: '📸', sample: '🎬',
+    work: '💼', project: '🛠️', portfolio: '💼',
+    fun: '🎉', news: '📰', movie: '🎬', anime: '🎌',
+  };
+  return icons[n] || '📁';
+}
+
+function getCategoryColor(name: string): string {
+  const n = name.toLowerCase();
+  const colors: Record<string, string> = {
+    html: '#F97316', html5: '#F97316', htmlcss: '#F97316',
+    css: '#8B5CF6', css3: '#8B5CF6', sass: '#EC4899', scss: '#EC4899', tailwind: '#06B6D4', bootstrap: '#7952B3', material: '#3B82F6',
+    javascript: '#EAB308', js: '#EAB308', es6: '#EAB308',
+    typescript: '#3B82F6', ts: '#3B82F6',
+    react: '#06B6D4', next: '#000000', nextjs: '#000000', gatsby: '#663399',
+    vue: '#22C55E', nuxt: '#00DC82',
+    angular: '#DC2626',
+    svelte: '#FF3E00', solid: '#0361D8',
+    node: '#22C55E', express: '#000000', nest: '#E0234E', deno: '#000000',
+    python: '#FBBF24', django: '#0C4B33', flask: '#000000', fastapi: '#009688',
+    java: '#EC4899', spring: '#6DB33F', kotlin: '#7F52FF',
+    php: '#777BB4', laravel: '#FF2D20', wordpress: '#21759B',
+    ruby: '#DC2626', rails: '#CC0000',
+    go: '#00ADD8', golang: '#00ADD8',
+    rust: '#CE422B',
+    sql: '#4479A1', mysql: '#4479A1', postgresql: '#336791', mongodb: '#13AA52', redis: '#DC382D', firebase: '#FFCA28', supabase: '#3ECF8E',
+    git: '#F05032', github: '#181717', gitlab: '#FC6D26', bitbucket: '#0052CC',
+    docker: '#2496ED', kubernetes: '#326CE5', k8s: '#326CE5',
+    aws: '#FF9900', azure: '#0078D4', gcp: '#4285F4', cloud: '#4285F4',
+    api: '#6366F1', rest: '#6366F1', graphql: '#E535AB', grpc: '#244C5A',
+    english: '#3B82F6', hindi: '#FF9933', spanish: '#FCD34D', french: '#3B82F6',
+    german: '#000000', chinese: '#DC2626', japanese: '#EC4899', korean: '#3B82F6',
+    math: '#10B981', mathematics: '#10B981', algebra: '#10B981', calculus: '#10B981', geometry: '#10B981', statistics: '#10B981',
+    physics: '#6366F1', chemistry: '#F59E0B', biology: '#22C55E', science: '#06B6D4',
+    history: '#F59E0B', geography: '#22C55E', economics: '#3B82F6',
+    accounting: '#8B5CF6', finance: '#22C55E', marketing: '#EC4899',
+    philosophy: '#8B5CF6', psychology: '#EC4899', sociology: '#06B6D4',
+    tutorial: '#6366F1', course: '#8B5CF6', lecture: '#EC4899',
+    music: '#EC4899', song: '#EC4899', audio: '#10B981', podcast: '#8B5CF6',
+    nature: '#22C55E', travel: '#06B6D4', food: '#F97316', cooking: '#F97316',
+    sports: '#22C55E', fitness: '#EF4444', yoga: '#A855F7',
+    art: '#EC4899', design: '#8B5CF6', photography: '#3B82F6',
+    personal: '#F97316', notes: '#EAB308', screenshot: '#06B6D4', sample: '#64748B', work: '#3B82F6', project: '#8B5CF6',
+    fun: '#EC4899', news: '#EF4444', movie: '#8B5CF6', anime: '#EC4899',
+  };
+  return colors[n] || '#6366F1';
+}
+
+// ============================================================
+// PLAYLIST GENERATION - 3 STRATEGIES
 // ============================================================
 
 export function generatePlaylists(items: MediaItem[]): { playlists: Playlist[]; directItems: MediaItem[] } {
   const playlists: Playlist[] = [];
   const usedIds = new Set<string | number>();
 
-  // STEP 1: Group by (tag) prefix - HIGHEST PRIORITY
+  // === STRATEGY 1: (tag) prefix grouping (HIGHEST PRIORITY) ===
   const tagGroups = new Map<string, MediaItem[]>();
   items.forEach(item => {
     const tag = extractTag(item.title);
@@ -82,154 +218,75 @@ export function generatePlaylists(items: MediaItem[]): { playlists: Playlist[]; 
     }
   });
 
-  // Create playlists from tag groups (even single items count)
   tagGroups.forEach((group, tag) => {
     const sorted = [...group].sort((a, b) => extractSequenceNumber(a.title) - extractSequenceNumber(b.title));
-    const types = [...new Set(group.map(i => i.type))];
-    
+    const videos = sorted.filter(i => i.type === 'video');
+    const images = sorted.filter(i => i.type === 'image');
+    const audios = sorted.filter(i => i.type === 'audio');
+
+    const baseTag = getBaseTag(tag);
     playlists.push({
       id: `tag-${tag}`,
-      name: tag.toUpperCase(),
+      name: tag,
+      displayName: beautifyTag(tag),
       type: 'tag',
       items: sorted,
       count: sorted.length,
-      icon: getCategoryIcon(tag),
-      color: getColorForCategory(tag),
-      description: `${sorted.length} ${sorted.length > 1 ? 'items' : 'item'} - ${types.join(', ')}`
+      videoCount: videos.length,
+      imageCount: images.length,
+      audioCount: audios.length,
+      icon: getCategoryIcon(baseTag),
+      color: getCategoryColor(baseTag),
+      description: `${sorted.length} ${sorted.length > 1 ? 'items' : 'item'} • ${videos.length}v ${images.length}i ${audios.length}a`
     });
     sorted.forEach(i => usedIds.add(i.id));
   });
 
-  // STEP 2: Group by category (for items without tag)
+  // === STRATEGY 2: Same category grouping ===
   const categoryGroups = new Map<string, MediaItem[]>();
   items.forEach(item => {
     if (usedIds.has(item.id)) return;
-    if (item.category) {
-      const group = categoryGroups.get(item.category) || [];
+    const cat = item.category?.toLowerCase() || '';
+    if (cat) {
+      const group = categoryGroups.get(cat) || [];
       group.push(item);
-      categoryGroups.set(item.category, group);
+      categoryGroups.set(cat, group);
     }
   });
 
   categoryGroups.forEach((group, category) => {
     if (group.length >= 2) {
       const sorted = [...group].sort((a, b) => extractSequenceNumber(a.title) - extractSequenceNumber(b.title));
-      const types = [...new Set(group.map(i => i.type))];
-      
+      const videos = sorted.filter(i => i.type === 'video');
+      const images = sorted.filter(i => i.type === 'image');
+      const audios = sorted.filter(i => i.type === 'audio');
+
       playlists.push({
         id: `cat-${category}`,
-        name: category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, ' '),
+        name: category,
+        displayName: category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, ' '),
         type: 'category',
         items: sorted,
         count: sorted.length,
+        videoCount: videos.length,
+        imageCount: images.length,
+        audioCount: audios.length,
         icon: getCategoryIcon(category),
-        color: getColorForCategory(category),
-        description: `${sorted.length} items - ${types.join(', ')}`
+        color: getCategoryColor(category),
+        description: `${sorted.length} items`
       });
       sorted.forEach(i => usedIds.add(i.id));
     }
   });
 
-  // STEP 3: Group by keyword in title (last resort)
-  const keywordGroups = new Map<string, MediaItem[]>();
-  items.forEach(item => {
-    if (usedIds.has(item.id)) return;
-    const kw = extractKeyword(item.title);
-    if (kw) {
-      const group = keywordGroups.get(kw) || [];
-      group.push(item);
-      keywordGroups.set(kw, group);
-    }
-  });
-
-  keywordGroups.forEach((group, keyword) => {
-    if (group.length >= 2) {
-      const sorted = [...group].sort((a, b) => extractSequenceNumber(a.title) - extractSequenceNumber(b.title));
-      playlists.push({
-        id: `kw-${keyword}`,
-        name: keyword.toUpperCase() + ' Series',
-        type: 'keyword',
-        items: sorted,
-        count: sorted.length,
-        icon: getCategoryIcon(keyword),
-        color: getColorForCategory(keyword),
-        description: `Auto-detected from titles`
-      });
-      sorted.forEach(i => usedIds.add(i.id));
-    }
-  });
-
-  // STEP 4: Direct items - items not in any playlist
+  // === STRATEGY 3: Direct items (no tag, no category group) ===
   const directItems = items.filter(i => !usedIds.has(i.id));
 
-  // Sort playlists by count (largest first), then by name
+  // Sort: largest first, then by name
   playlists.sort((a, b) => {
     if (b.count !== a.count) return b.count - a.count;
-    return a.name.localeCompare(b.name);
+    return a.displayName.localeCompare(b.displayName);
   });
 
   return { playlists, directItems };
-}
-
-// ============================================================
-// HELPERS
-// ============================================================
-
-// YouTube thumbnail
-export function getYoutubeThumbnail(url: string): string | null {
-  const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
-  return match ? `https://img.youtube.com/vi/${match[1]}/mqdefault.jpg` : null;
-}
-
-// Get thumbnail for any item
-export function getItemThumbnail(item: MediaItem): string | null {
-  if (item.type === 'image') return item.src;
-  const yt = getYoutubeThumbnail(item.src);
-  return yt;
-}
-
-// Get clean title (without tag)
-export function getCleanTitle(title: string): string {
-  return removeTag(title);
-}
-
-// Category icons - extensive list
-function getCategoryIcon(name: string): string {
-  const icons: Record<string, string> = {
-    // Programming
-    css: '🎨', html: '🌐', javascript: '⚡', js: '⚡', typescript: '📘', ts: '📘',
-    react: '⚛️', vue: '💚', angular: '🔴', node: '💚', svelte: '🧡', nextjs: '▲',
-    python: '🐍', java: '☕', php: '🐘', ruby: '💎', go: '🐹', rust: '🦀',
-    sql: '🗄️', mongodb: '🍃', git: '🔀', docker: '🐳', aws: '☁️',
-    api: '🔗', rest: '🔗', graphql: '◢', tailwind: '🌊', bootstrap: '🅱',
-    // Languages
-    english: '🇬🇧', hindi: '🇮🇳', spanish: '🇪🇸', french: '🇫🇷',
-    german: '🇩🇪', chinese: '🇨🇳', japanese: '🇯🇵', korean: '🇰🇷',
-    // Subjects
-    math: '📐', physics: '⚛️', chemistry: '🧪', biology: '🧬',
-    history: '📜', geography: '🗺️', economics: '💹', finance: '💰',
-    // Categories
-    tutorial: '📚', music: '🎵', nature: '🌿', abstract: '🎨',
-    personal: '👤', screenshot: '📸', sample: '🎬', work: '💼',
-    fun: '🎉', news: '📰', sports: '⚽', food: '🍕', travel: '✈️',
-    'english-class': '🇬🇧',
-  };
-  return icons[name.toLowerCase()] || '📁';
-}
-
-// Category colors
-function getColorForCategory(name: string): string {
-  const colors: Record<string, string> = {
-    css: '#8B5CF6', html: '#F97316', javascript: '#EAB308', js: '#EAB308',
-    typescript: '#3B82F6', ts: '#3B82F6', react: '#06B6D4', vue: '#22C55E',
-    angular: '#DC2626', node: '#22C55E', svelte: '#F97316', nextjs: '#000000',
-    python: '#FBBF24', java: '#EC4899', php: '#8B5CF6', ruby: '#DC2626',
-    english: '#3B82F6', 'english-class': '#3B82F6', hindi: '#FF9933',
-    spanish: '#FCD34D', french: '#3B82F6', german: '#000000',
-    math: '#10B981', physics: '#6366F1', chemistry: '#F59E0B', biology: '#22C55E',
-    tutorial: '#6366F1', music: '#EC4899', nature: '#22C55E', abstract: '#8B5CF6',
-    personal: '#F97316', screenshot: '#06B6D4', sample: '#64748B', work: '#3B82F6',
-    fun: '#EC4899', news: '#EF4444', sports: '#22C55E', food: '#F97316', travel: '#06B6D4',
-  };
-  return colors[name.toLowerCase()] || '#6366F1';
 }

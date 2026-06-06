@@ -28,10 +28,12 @@ import {
   PokemonSection, WellnessSection, WorldSection, SocialSection,
   NamePredictorSection, AnimeSection, CountriesSection, ReadingSection, ColorSection
 } from './components/sections/MoreSections';
+import { GroupsSection } from './components/sections/GroupsSection';
 
 // Sidebar sections config
 const SECTIONS = [
   { id: 'gallery', name: 'Gallery', icon: Grid3x3, color: 'blue', desc: 'Media library' },
+  { id: 'groups', name: 'Image Groups', icon: ImageIcon, color: 'pink', desc: 'Pexels search' },
   { id: 'tools', name: 'Tools', icon: Wrench, color: 'cyan', desc: '8+ free tools' },
   { id: 'weather', name: 'Weather', icon: CloudSun, color: 'yellow', desc: 'Live weather' },
   { id: 'calculator', name: 'Calculator', icon: Calculator, color: 'green', desc: '20+ formulas' },
@@ -281,6 +283,7 @@ const App: React.FC = () => {
           </div>
         );
 
+      case 'groups': return <GroupsSection onAddMedia={addToGallery} isDark={isDark} />;
       case 'tools': return <ToolsSection onAddMedia={addToGallery} showToast={showToast} />;
       case 'weather': return <WeatherSection />;
       case 'calculator': return <CalculatorSection />;
@@ -321,8 +324,8 @@ const App: React.FC = () => {
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center"><Grid3x3 className="w-5 h-5 text-white" /></div>
             <div>
-              <h1 className="text-lg font-bold text-white">MediaHub</h1>
-              <p className="text-[10px] text-gray-500 uppercase tracking-widest">30+ Free APIs</p>
+              <h1 className="text-lg font-bold text-white">Study Gallery</h1>
+              <p className="text-[10px] text-gray-500 uppercase tracking-widest">by SudhirDevOps1</p>
             </div>
           </div>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-2 hover:bg-gray-800 rounded-lg">
@@ -352,10 +355,21 @@ const App: React.FC = () => {
           })}
         </nav>
 
-        <div className="p-4 border-t border-gray-800 mt-4">
+        <div className="p-4 border-t border-gray-800 mt-4 space-y-2">
           <p className="text-xs text-gray-500 text-center">
-            ✨ All sections powered by<br />free public APIs
+            ✨ Powered by free public APIs
           </p>
+          <p className="text-[10px] text-gray-600 text-center">
+            © {new Date().getFullYear()} <span className="text-gray-400 font-semibold">SudhirDevOps1</span>
+          </p>
+          <a
+            href="https://github.com/SudhirDevOps1/ONLY-STUDY-GELLERY"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-[10px] text-blue-400 hover:text-blue-300 text-center truncate"
+          >
+            ONLY-STUDY-GELLERY
+          </a>
         </div>
       </aside>
 

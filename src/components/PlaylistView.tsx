@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Play, ChevronRight, ListMusic, Film, Image as ImageIcon, Music, BookOpen, ArrowLeft, Sparkles, Tag, FileImage, FileVideo, FileAudio, Search } from 'lucide-react';
 import { MediaItem } from '../types';
-import { generatePlaylists, Playlist, getYoutubeThumbnail, getItemThumbnail, getCleanTitle, extractSequenceNumber } from '../utils/playlistEngine';
+import { generatePlaylists, Playlist, getYoutubeThumbnail, getItemThumbnail, removeTag as getCleanTitle, extractSequenceNumber } from '../utils/playlistEngine';
 import { isYouTubeUrl } from './../utils/mediaUtils';
 
 interface PlaylistViewProps {
@@ -19,7 +19,7 @@ export const PlaylistView: React.FC<PlaylistViewProps> = ({ items, onOpenPlaylis
   const filteredPlaylists = useMemo(() => {
     if (!search.trim()) return playlists;
     const s = search.toLowerCase();
-    return playlists.filter(p => p.name.toLowerCase().includes(s) || p.items.some(i => i.title.toLowerCase().includes(s)));
+    return playlists.filter(p => p.displayName.toLowerCase().includes(s) || p.name.toLowerCase().includes(s) || p.items.some(i => i.title.toLowerCase().includes(s)));
   }, [playlists, search]);
 
   if (playlists.length === 0 && directItems.length === 0) return null;
@@ -108,7 +108,7 @@ export const PlaylistView: React.FC<PlaylistViewProps> = ({ items, onOpenPlaylis
 
                           {/* Info */}
                           <h3 className="text-sm font-bold text-white truncate flex items-center gap-2">
-                            <span className="text-base">{playlist.icon}</span>{playlist.name}
+                            <span className="text-base">{playlist.icon}</span>{playlist.displayName}
                           </h3>
                           <p className="text-[10px] text-gray-400 mt-1 truncate">{playlist.description}</p>
 
@@ -225,7 +225,7 @@ export const PlaylistDetail: React.FC<PlaylistDetailProps> = ({ playlist, onBack
         <div className="min-w-0">
           <h2 className="text-xl sm:text-2xl font-bold text-white truncate flex items-center gap-2">
             <Tag className="w-5 h-5 flex-shrink-0" style={{ color: playlist.color }} />
-            {playlist.name}
+            {playlist.displayName}
           </h2>
           <p className="text-xs sm:text-sm text-gray-400 truncate">{playlist.description}</p>
         </div>

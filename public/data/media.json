@@ -4,63 +4,63 @@
     "title": "(html) Day 1 - Introduction",
     "type": "video",
     "src": "https://www.youtube.com/watch?v=qz0aGYrrlhU",
-    "category": "tutorial",
-    "description": "HTML basics - Day 1"
+    "category": "html",
+    "description": "HTML Day 1 video lesson"
   },
   {
     "id": 2,
     "title": "(html) Day 2 - Tags & Elements",
     "type": "video",
     "src": "https://www.youtube.com/watch?v=pQN-pnXPaVg",
-    "category": "tutorial",
-    "description": "HTML tags - Day 2"
+    "category": "html",
+    "description": "HTML Day 2 video lesson"
   },
   {
     "id": 3,
     "title": "(html) Day 3 - Forms",
     "type": "video",
     "src": "https://www.youtube.com/watch?v=fNcJuPIZ2WE",
-    "category": "tutorial",
-    "description": "HTML forms - Day 3"
+    "category": "html",
+    "description": "HTML Day 3 video lesson"
   },
   {
     "id": 4,
     "title": "(html) Day 4 - Tables & Lists",
     "type": "video",
     "src": "https://www.youtube.com/watch?v=DPnqb74Smug",
-    "category": "tutorial",
-    "description": "HTML tables - Day 4"
+    "category": "html",
+    "description": "HTML Day 4 video lesson"
   },
   {
     "id": 5,
     "title": "(html) Day 5 - Semantic HTML",
     "type": "video",
     "src": "https://www.youtube.com/watch?v=kGW8Al_cga4",
-    "category": "tutorial",
-    "description": "Semantic HTML - Day 5"
+    "category": "html",
+    "description": "HTML Day 5 video lesson"
   },
   {
-    "id": 10,
-    "title": "(html) Day 1 Screenshot - Notes",
+    "id": 6,
+    "title": "(html) Day 1 Notes Screenshot",
     "type": "image",
-    "src": "https://i.ibb.co/67m5CR3B/image.jpg",
-    "category": "screenshot",
-    "description": "HTML Day 1 notes screenshot from ImgBB"
+    "src": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80",
+    "category": "html",
+    "description": "HTML Day 1 notes screenshot"
   },
   {
-    "id": 11,
-    "title": "(html) Day 2 Screenshot - Notes",
+    "id": 7,
+    "title": "(html) Day 2 Notes Screenshot",
     "type": "image",
-    "src": "https://i.ibb.co/r2XvYrhP/image.jpg",
-    "category": "screenshot",
-    "description": "HTML Day 2 notes screenshot from ImgBB"
+    "src": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",
+    "category": "html",
+    "description": "HTML Day 2 notes screenshot"
   },
   {
     "id": 20,
     "title": "(css) Day 1 - Selectors",
     "type": "video",
     "src": "https://www.youtube.com/watch?v=1Rs2ND1ryYc",
-    "category": "tutorial",
+    "category": "css",
     "description": "CSS selectors basics"
   },
   {
@@ -68,7 +68,7 @@
     "title": "(css) Day 2 - Hover Effects",
     "type": "video",
     "src": "https://www.youtube.com/watch?v=3T4eE9pXmrc",
-    "category": "tutorial",
+    "category": "css",
     "description": "CSS hover effects and transitions"
   },
   {
@@ -76,75 +76,91 @@
     "title": "(css) Day 3 - Flexbox",
     "type": "video",
     "src": "https://www.youtube.com/watch?v=JJSoEo8JSnc",
-    "category": "tutorial",
+    "category": "css",
     "description": "CSS Flexbox complete guide"
   },
   {
     "id": 23,
-    "title": "(css) Day 4 - Grid",
+    "title": "(css) Day 4 - Grid Layout",
     "type": "video",
     "src": "https://www.youtube.com/watch?v=9zBsdzdE4sM",
-    "category": "tutorial",
+    "category": "css",
     "description": "CSS Grid layout system"
   },
   {
-    "id": 30,
-    "title": "(css) Hover Screenshot",
+    "id": 24,
+    "title": "(css) Hover Screenshot 1",
     "type": "image",
-    "src": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800",
-    "category": "screenshot",
-    "description": "CSS hover example screenshot"
+    "src": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80",
+    "category": "css",
+    "description": "CSS hover effect example"
   },
   {
-    "id": 31,
-    "title": "(css) Flexbox Demo Screenshot",
+    "id": 25,
+    "title": "(css) Flexbox Screenshot 2",
     "type": "image",
-    "src": "https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=800",
-    "category": "screenshot",
+    "src": "https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=800&q=80",
+    "category": "css",
     "description": "CSS Flexbox layout demo"
   },
   {
     "id": 40,
-    "title": "(english) Class 1 - Greetings",
-    "type": "video",
-    "src": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    "category": "english-class",
-    "description": "English greetings basics"
-  },
-  {
-    "id": 41,
-    "title": "(english) Class 2 - Tenses",
-    "type": "video",
-    "src": "https://www.youtube.com/watch?v=jNQXAC9IVRw",
-    "category": "english-class",
-    "description": "English tenses explained"
-  },
-  {
-    "id": 42,
-    "title": "(english) Class 3 - Vocabulary",
-    "type": "video",
-    "src": "https://www.youtube.com/watch?v=kJQP7kiw5Fk",
-    "category": "english-class",
-    "description": "Daily English vocabulary"
-  },
-  {
-    "id": 50,
-    "title": "(javascript) Tutorial 1 - Variables",
+    "title": "(javascript) Day 1 - Variables",
     "type": "video",
     "src": "https://www.youtube.com/watch?v=W6NZfCO5SIk",
-    "category": "tutorial",
+    "category": "javascript",
     "description": "JavaScript variables and data types"
   },
   {
-    "id": 51,
-    "title": "(javascript) Tutorial 2 - Functions",
+    "id": 41,
+    "title": "(javascript) Day 2 - Functions",
     "type": "video",
     "src": "https://www.youtube.com/watch?v=N8ap4k_1QEQ",
-    "category": "tutorial",
+    "category": "javascript",
     "description": "JavaScript functions explained"
   },
   {
+    "id": 50,
+    "title": "(english) Class 1 - Greetings",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "category": "english",
+    "description": "English greetings basics"
+  },
+  {
+    "id": 51,
+    "title": "(english) Class 2 - Tenses",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+    "category": "english",
+    "description": "English tenses explained"
+  },
+  {
+    "id": 52,
+    "title": "(english) Class 3 - Vocabulary",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=kJQP7kiw5Fk",
+    "category": "english",
+    "description": "Daily English vocabulary"
+  },
+  {
     "id": 60,
+    "title": "(react) Day 1 - Components",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=Ke90Tje7VS0",
+    "category": "react",
+    "description": "React components explained"
+  },
+  {
+    "id": 61,
+    "title": "(react) Day 2 - State & Props",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=O6P86uwfdR0",
+    "category": "react",
+    "description": "React State and Props"
+  },
+  {
+    "id": 70,
     "title": "(music) Lofi Beats",
     "type": "video",
     "src": "https://www.youtube.com/watch?v=jfKfPfyJRdk",
@@ -152,7 +168,7 @@
     "description": "Lofi hip hop for studying"
   },
   {
-    "id": 61,
+    "id": 71,
     "title": "(music) Nature Sounds",
     "type": "audio",
     "src": "https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg",
@@ -160,24 +176,56 @@
     "description": "Relaxing ocean waves"
   },
   {
-    "id": 70,
-    "title": "Sunset View",
-    "type": "image",
-    "src": "https://images.unsplash.com/photo-1495562569060-2eec283d3391?w=2000",
-    "category": "nature",
-    "description": "Direct image - no playlist tag"
+    "id": 90,
+    "title": "(cssvid) Day 1 - Animation Video",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=YszONjKpgg4",
+    "category": "tutorial",
+    "description": "CSS animation video - separate video playlist"
   },
   {
-    "id": 71,
-    "title": "Abstract Art",
+    "id": 91,
+    "title": "(cssvid) Day 2 - Transitions Video",
+    "type": "video",
+    "src": "https://www.youtube.com/watch?v=Nloq6uzF8RQ",
+    "category": "tutorial",
+    "description": "CSS transitions video"
+  },
+  {
+    "id": 92,
+    "title": "(cssimg) Layout Screenshot 1",
     "type": "image",
-    "src": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=2000",
-    "category": "abstract",
+    "src": "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=800&q=80",
+    "category": "screenshot",
+    "description": "CSS layout screenshot - separate image playlist"
+  },
+  {
+    "id": 93,
+    "title": "(cssimg) Grid Screenshot 2",
+    "type": "image",
+    "src": "https://images.unsplash.com/photo-1487014679447-9f8336841d58?w=800&q=80",
+    "category": "screenshot",
+    "description": "CSS grid screenshot"
+  },
+  {
+    "id": 80,
+    "title": "Sunset View",
+    "type": "image",
+    "src": "https://images.unsplash.com/photo-1495562569060-2eec283d3391?w=2000&q=80",
+    "category": "nature",
     "description": "Direct image without playlist"
   },
   {
-    "id": 72,
-    "title": "Ocean Sample Video",
+    "id": 81,
+    "title": "Abstract Art",
+    "type": "image",
+    "src": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=2000&q=80",
+    "category": "abstract",
+    "description": "Direct abstract image"
+  },
+  {
+    "id": 82,
+    "title": "Ocean Video",
     "type": "video",
     "src": "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
     "category": "sample",

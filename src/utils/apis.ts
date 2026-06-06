@@ -91,7 +91,27 @@ export const getPokemon = (name = 'pikachu') => apiCall<any>(`https://pokeapi.co
 export const getPokemonList = (limit = 20) => apiCall<any>(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`);
 
 // ============ NASA & SPACE ============
-export const getNasaApod = () => apiCall<any>('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
+// NASA APOD with fallback when DEMO_KEY rate-limited (404)
+export const getNasaApod = async () => {
+  const result = await apiCall<any>('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
+  if (result.success && result.data?.url && result.data?.media_type === 'image') return result;
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><defs><radialGradient id="g" cx="50%" cy="45%" r="65%"><stop offset="0%" stop-color="#334155"/><stop offset="45%" stop-color="#111827"/><stop offset="100%" stop-color="#020617"/></radialGradient><linearGradient id="a" x1="0" x2="1"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs><rect width="1200" height="800" fill="url(#g)"/><g fill="#fff">${Array.from({ length: 120 }).map((_, i) => `<circle cx="${(i * 83) % 1200}" cy="${(i * 47) % 800}" r="${(i % 3) + 1}" opacity="${0.25 + (i % 5) * 0.12}"/>`).join('')}</g><circle cx="600" cy="360" r="150" fill="none" stroke="url(#a)" stroke-width="4" opacity="0.8"/><circle cx="600" cy="360" r="96" fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.45"/><text x="600" y="350" font-family="Arial, sans-serif" font-size="56" font-weight="700" fill="#fff" text-anchor="middle">NASA APOD</text><text x="600" y="405" font-family="Arial, sans-serif" font-size="24" fill="#cbd5e1" text-anchor="middle">Fallback image - API limit or unavailable</text><text x="600" y="455" font-family="Arial, sans-serif" font-size="18" fill="#94a3b8" text-anchor="middle">Visit apod.nasa.gov for the official astronomy picture</text></svg>`;
+  const fallbackImage = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+
+  return {
+    success: true,
+    data: {
+      title: 'NASA Astronomy Picture of the Day',
+      url: fallbackImage,
+      hdurl: fallbackImage,
+      explanation: 'NASA APOD is temporarily unavailable due to API rate limits. This is a placeholder image. Check back later or visit apod.nasa.gov directly.',
+      date: new Date().toISOString().split('T')[0],
+      media_type: 'image',
+      copyright: 'NASA APOD fallback'
+    }
+  };
+};
 
 // ============ IMAGES ============
 export const getDogPhotos = (count = 6) => apiCall<any>(`https://dog.ceo/api/breeds/image/random/${count}`);
