@@ -12,6 +12,7 @@ export interface Playlist {
   name: string;
   displayName: string;
   type: 'tag' | 'category' | 'keyword';
+  primaryType: 'image' | 'video' | 'audio' | 'mixed';
   items: MediaItem[];
   count: number;
   videoCount: number;
@@ -62,6 +63,25 @@ export function beautifyTag(tag: string): string {
 export function getBaseTag(tag: string): string {
   const t = tag.toLowerCase();
   return t.replace(/(vid|video|videos|img|image|images|pic|pics|aud|audio|song|songs|music)$/, '') || t;
+}
+
+// Determine primary type based on content distribution
+function determinePrimaryType(videoCount: number, imageCount: number, audioCount: number): 'image' | 'video' | 'audio' | 'mixed' {
+  const total = videoCount + imageCount + audioCount;
+  if (total === 0) return 'mixed';
+  
+  // If all items are same type
+  if (videoCount === total) return 'video';
+  if (imageCount === total) return 'image';
+  if (audioCount === total) return 'audio';
+  
+  // If dominant type (>50%)
+  if (videoCount / total > 0.5) return 'video';
+  if (imageCount / total > 0.5) return 'image';
+  if (audioCount / total > 0.5) return 'audio';
+  
+  // Otherwise mixed
+  return 'mixed';
 }
 
 // Extract sequence number
@@ -230,6 +250,7 @@ export function generatePlaylists(items: MediaItem[]): { playlists: Playlist[]; 
       name: tag,
       displayName: beautifyTag(tag),
       type: 'tag',
+      primaryType: determinePrimaryType(videos.length, images.length, audios.length),
       items: sorted,
       count: sorted.length,
       videoCount: videos.length,
@@ -266,6 +287,7 @@ export function generatePlaylists(items: MediaItem[]): { playlists: Playlist[]; 
         name: category,
         displayName: category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, ' '),
         type: 'category',
+        primaryType: determinePrimaryType(videos.length, images.length, audios.length),
         items: sorted,
         count: sorted.length,
         videoCount: videos.length,

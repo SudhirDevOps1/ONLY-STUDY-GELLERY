@@ -213,12 +213,7 @@ const App: React.FC = () => {
 
             {/* Gallery Content */}
             <div className="max-w-7xl mx-auto p-3 sm:p-4 md:p-8">
-              {/* Quick guide banner */}
-              <div className="mb-4 sm:mb-6 rounded-2xl border border-yellow-500/30 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 p-3 sm:p-4">
-                <p className="text-xs sm:text-sm text-yellow-200 leading-relaxed">
-                  <strong className="text-yellow-300">💡 Smart Playlist Tip:</strong> JSON mein title ke aage <code className="bg-black/40 px-1.5 py-0.5 rounded text-yellow-300 font-bold">(css)</code>, <code className="bg-black/40 px-1.5 py-0.5 rounded text-yellow-300 font-bold">(html)</code>, <code className="bg-black/40 px-1.5 py-0.5 rounded text-yellow-300 font-bold">(english)</code> aise daalo → ek hi playlist mein group ho jayega! Same tag wale sab items + images + videos ek saath dikhenge.
-                </p>
-              </div>
+              {/* Quick guide banner - removed */}
 
               {/* Top stats */}
               <div className="grid gap-3 sm:gap-4 grid-cols-3 mb-6 sm:mb-8">

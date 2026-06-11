@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Play, ChevronRight, ListMusic, Film, Image as ImageIcon, Music, BookOpen, ArrowLeft, Sparkles, Tag, FileImage, FileVideo, FileAudio, Search } from 'lucide-react';
+import { Play, ChevronRight, ListMusic, Film, Image as ImageIcon, Music, ArrowLeft, Sparkles, Tag, FileImage, FileVideo, FileAudio, Search } from 'lucide-react';
 import { MediaItem } from '../types';
 import { generatePlaylists, Playlist, getYoutubeThumbnail, getItemThumbnail, removeTag as getCleanTitle, extractSequenceNumber } from '../utils/playlistEngine';
 import { isYouTubeUrl } from './../utils/mediaUtils';
@@ -79,8 +79,11 @@ export const PlaylistView: React.FC<PlaylistViewProps> = ({ items, onOpenPlaylis
                         <div className="absolute inset-0 rounded-xl opacity-5" style={{ background: `linear-gradient(135deg, ${playlist.color}, transparent)` }} />
 
                         <div className="relative z-10">
-                          {/* Thumbnail */}
-                          <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-3 bg-black/30">
+                          {/* Thumbnail - aspect ratio based on primaryType */}
+                          <div className={`relative w-full rounded-lg overflow-hidden mb-3 bg-black/30 ${
+                            playlist.primaryType === 'image' ? 'aspect-square' : 
+                            playlist.primaryType === 'audio' ? 'aspect-square' : 'aspect-video'
+                          }`}>
                             {ytThumbnail ? (
                               <img src={ytThumbnail} alt="" className="w-full h-full object-cover" loading="lazy" />
                             ) : imgThumbnail ? (
@@ -98,10 +101,16 @@ export const PlaylistView: React.FC<PlaylistViewProps> = ({ items, onOpenPlaylis
                             <div className="absolute bottom-2 right-2 bg-black/80 backdrop-blur-md text-white text-xs px-2 py-1 rounded-full font-bold">
                               {playlist.count} items
                             </div>
-                            {/* Hover play button */}
+                            {/* Hover icon - different for each type */}
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
                               <div className="w-14 h-14 rounded-full bg-white/0 group-hover:bg-white/90 flex items-center justify-center transition-all transform group-hover:scale-100 scale-0">
-                                <Play className="w-7 h-7 text-black ml-1" />
+                                {playlist.primaryType === 'image' ? (
+                                  <ImageIcon className="w-7 h-7 text-black" />
+                                ) : playlist.primaryType === 'audio' ? (
+                                  <Music className="w-7 h-7 text-black" />
+                                ) : (
+                                  <Play className="w-7 h-7 text-black ml-1" />
+                                )}
                               </div>
                             </div>
                           </div>
@@ -137,14 +146,7 @@ export const PlaylistView: React.FC<PlaylistViewProps> = ({ items, onOpenPlaylis
                   })}
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-white/10">
-                  <p className="text-[10px] text-gray-500 flex items-start gap-2">
-                    <BookOpen className="w-3 h-3 mt-0.5 flex-shrink-0" />
-                    <span>
-                      <strong className="text-blue-400">💡 Tip:</strong> JSON mein title ke aage <code className="text-yellow-300 bg-gray-800 px-1 rounded">(css)</code>, <code className="text-yellow-300 bg-gray-800 px-1 rounded">(html)</code>, <code className="text-yellow-300 bg-gray-800 px-1 rounded">(english)</code> aise tag daalo → auto playlist banega!
-                    </span>
-                  </p>
-                </div>
+                {/* Tip removed */}
               </>
             )}
           </div>
@@ -268,7 +270,13 @@ export const PlaylistDetail: React.FC<PlaylistDetailProps> = ({ playlist, onBack
               {item.description && <p className="text-[10px] sm:text-xs text-gray-400 truncate mt-0.5">{item.description}</p>}
             </div>
             <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-500/20 group-hover:bg-blue-500 flex items-center justify-center transition-colors flex-shrink-0">
-              <Play className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 group-hover:text-white" />
+              {item.type === 'image' ? (
+                <ImageIcon className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 group-hover:text-white" />
+              ) : item.type === 'audio' ? (
+                <Music className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 group-hover:text-white" />
+              ) : (
+                <Play className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 group-hover:text-white" />
+              )}
             </div>
           </button>
         );
