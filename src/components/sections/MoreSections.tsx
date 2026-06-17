@@ -639,7 +639,7 @@ export const CountriesSection: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-8">
-      <SectionHeader icon="🌏" title="Country Explorer" description="Detailed info on all 250 countries (RestCountries API)" />
+      <SectionHeader icon="🌏" title="Country Explorer" description="Detailed info on all 250 countries (ApiCountries API)" />
       <div className="flex gap-2 mb-6">
         <input value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && searchCountry()} placeholder="Country name (e.g. India, USA, Japan)" className="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white outline-none" />
         <button onClick={() => searchCountry()} disabled={loading} className="bg-lime-600 hover:bg-lime-500 text-white px-6 py-3 rounded-xl font-medium disabled:opacity-50">{loading ? 'Searching...' : 'Search'}</button>
@@ -649,24 +649,24 @@ export const CountriesSection: React.FC = () => {
           <div className="flex items-center gap-4 mb-4">
             <img src={country.flags?.png} alt="" className="w-24 h-16 object-cover rounded-lg" />
             <div>
-              <h2 className="text-2xl font-bold text-white">{country.name?.common}</h2>
-              <p className="text-sm text-gray-400">{country.name?.official}</p>
+              <h2 className="text-2xl font-bold text-white">{country.name}</h2>
+              <p className="text-sm text-gray-400">{country.nativeName}</p>
             </div>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <StatBlock label="Capital" value={country.capital?.[0] || 'N/A'} icon="🏛️" />
+            <StatBlock label="Capital" value={country.capital || 'N/A'} icon="🏛️" />
             <StatBlock label="Population" value={country.population?.toLocaleString()} icon="👥" />
             <StatBlock label="Region" value={country.region} icon="🌍" />
-            <StatBlock label="Currency" value={Object.keys(country.currencies || {})[0] || 'N/A'} icon="💰" />
+            <StatBlock label="Currency" value={country.currencies?.[0]?.name || 'N/A'} icon="💰" />
           </div>
         </div>
       )}
       <h3 className="text-lg font-bold text-white mb-3">All Countries</h3>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3">
-        {allCountries.slice(0, 36).sort((a, b) => a.name.common.localeCompare(b.name.common)).map((c, i) => (
-          <button key={i} onClick={() => { setName(c.name.common); searchCountry(c.name.common); }} className="bg-white/5 border border-white/10 rounded-xl p-3 hover:border-lime-500/50 transition-colors">
+        {allCountries.slice(0, 36).sort((a, b) => (a.name || '').localeCompare(b.name || '')).map((c, i) => (
+          <button key={i} onClick={() => { setName(c.name); searchCountry(c.name); }} className="bg-white/5 border border-white/10 rounded-xl p-3 hover:border-lime-500/50 transition-colors">
             <img src={c.flags?.png} alt="" className="w-full h-16 object-cover rounded-lg mb-2" />
-            <p className="text-xs text-white font-medium truncate">{c.name.common}</p>
+            <p className="text-xs text-white font-medium truncate">{c.name}</p>
           </button>
         ))}
       </div>

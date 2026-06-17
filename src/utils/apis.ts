@@ -130,8 +130,8 @@ export const getRickRoll = () => apiCall<any>('https://meowfacts.herokuapp.com/'
 export const getRandomUsers = (count = 5) => apiCall<any>(`https://randomuser.me/api/?results=${count}`);
 
 // ============ COUNTRIES ============
-export const getCountryByName = (name: string) => apiCall<any>(`https://restcountries.com/v3.1/name/${name}`);
-export const getAllCountries = () => apiCall<any>('https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region');
+export const getCountryByName = (name: string) => apiCall<any>(`https://apicountries.com/name/${name}`);
+export const getAllCountries = () => apiCall<any>('https://apicountries.com/countries');
 
 // ============ WORLD TIME ============
 export const getWorldTime = (timezone: string) => apiCall<any>(`https://worldtimeapi.org/api/timezone/${timezone}`);
