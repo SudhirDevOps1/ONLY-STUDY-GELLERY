@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "title": "Day 1 ",
+        "type": "image",
+        "src": "https://i.ibb.co/GQSDsXGL/day1-html.png",
+        "category": "html",
+        "description": "Introduction"
+    },
+    {
+        "id": 2,
+        "title": "Day 2",
+        "type": "image",
+        "src": "https://i.ibb.co/LKxC2SD/day2-html.png",
+        "category": "html",
+        "description": "Prerequisites"
+    },
+    {
+        "id": 3,
+        "title": "Day 3",
+        "type": "image",
+        "src": "https://i.ibb.co/hJyqqWgH/day3-html.png",
+        "category": "html",
+        "description": "Introduction to html"
+    },
+     {
+        "id": 4,
+        "title": "Day 9",
+        "type": "image",
+        "src": "https://i.ibb.co/mVJNF9DT/day9-css.png",
+        "category": "css",
+        "description": "Box-model [16/06/2026]"
+    },
+    {
+        "id": 4,
+        "title": "Day 19",
+        "type": "image",
+        "src": "https://i.ibb.co/pjy6mmwV/day19-java.png",
+        "category": "java",
+        "description": "Arrays(Part-1) [16/06/2026]"
+    },
+    {
+        "id": 5,
+        "title": "Day 4",
+        "type": "image",
+        "src": "https://i.ibb.co/95WQb99/day4-python.png",
+        "category": "python",
+        "description": "Strings,Dictionary,slicing,lists,tupples [17/06/2026]"
+    }
+]
