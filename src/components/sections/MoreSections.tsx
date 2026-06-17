@@ -625,8 +625,14 @@ export const CountriesSection: React.FC = () => {
     setLoading(true);
     try {
       const r = await api.getCountryByName(query);
-      if (r.success && r.data?.[0]) setCountry(r.data[0]);
-    } catch { /* ignore */ }
+      if (r.success && Array.isArray(r.data) && r.data.length > 0) {
+        // Try to find an exact match first (case-insensitive)
+        const exactMatch = r.data.find(c => c.name.toLowerCase() === query.toLowerCase());
+        setCountry(exactMatch || r.data[0]);
+      } else {
+        setCountry(null);
+      }
+    } catch { setCountry(null); }
     setLoading(false);
   }, [name]);
 
@@ -644,22 +650,24 @@ export const CountriesSection: React.FC = () => {
         <input value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && searchCountry()} placeholder="Country name (e.g. India, USA, Japan)" className="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white outline-none" />
         <button onClick={() => searchCountry()} disabled={loading} className="bg-lime-600 hover:bg-lime-500 text-white px-6 py-3 rounded-xl font-medium disabled:opacity-50">{loading ? 'Searching...' : 'Search'}</button>
       </div>
-      {country && (
+      {country ? (
         <div className="bg-lime-500/10 border border-lime-500/30 rounded-2xl p-6 mb-6">
           <div className="flex items-center gap-4 mb-4">
-            <img src={country.flags?.png} alt="" className="w-24 h-16 object-cover rounded-lg" />
+            {country.flags?.png ? <img src={country.flags.png} alt="" className="w-24 h-16 object-cover rounded-lg shadow-sm" /> : <div className="w-24 h-16 bg-gray-800 rounded-lg" />}
             <div>
               <h2 className="text-2xl font-bold text-white">{country.name}</h2>
-              <p className="text-sm text-gray-400">{country.nativeName}</p>
+              <p className="text-sm text-gray-400">{country.nativeName || country.alpha2Code}</p>
             </div>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <StatBlock label="Capital" value={country.capital || 'N/A'} icon="🏛️" />
-            <StatBlock label="Population" value={country.population?.toLocaleString()} icon="👥" />
-            <StatBlock label="Region" value={country.region} icon="🌍" />
+            <StatBlock label="Population" value={country.population?.toLocaleString() || 'N/A'} icon="👥" />
+            <StatBlock label="Region" value={country.region || 'N/A'} icon="🌍" />
             <StatBlock label="Currency" value={country.currencies?.[0]?.name || 'N/A'} icon="💰" />
           </div>
         </div>
+      ) : (
+        !loading && name && <p className="text-red-400 mb-6">Country not found. Try searching another name.</p>
       )}
       <h3 className="text-lg font-bold text-white mb-3">All Countries</h3>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3">

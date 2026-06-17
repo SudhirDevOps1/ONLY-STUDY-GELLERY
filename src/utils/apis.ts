@@ -52,7 +52,12 @@ export const getDadJoke = () => apiCall<any>('https://icanhazdadjoke.com/', { he
 export const getRandomFact = () => apiCall<any>('https://uselessfacts.jsph.pl/api/v2/facts/random?language=en');
 export const getCatFact = () => apiCall<any>('https://catfact.ninja/fact');
 export const getTrivia = (count = 5) => apiCall<any>(`https://opentdb.com/api.php?amount=${count}&type=multiple&encode=url3986`);
-export const getNumberFact = (num: number | string = 'random') => apiCall<string>(`https://numbersapi.com/${num}?json`);
+export const getNumberFact = async (num: number | string = 'random') => {
+  const r = await apiCall<any>(`https://numbersapi.com/${num}?json`);
+  if (r.success) return r;
+  const n = num === 'random' ? Math.floor(Math.random() * 100) : num;
+  return { success: true, data: { text: `${n} is a very interesting number indeed! (Fallback fact because API is offline)` } };
+};
 export const getAdvice = () => apiCall<any>('https://api.adviceslip.com/advice');
 export const getQuote = () => apiCall<any>('https://dummyjson.com/quotes/random');
 export const getBoredActivity = () => apiCall<any>('https://bored-api.appbrewery.com/random');
