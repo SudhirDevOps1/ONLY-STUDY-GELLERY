@@ -272,9 +272,6 @@ export const searchMusic = (term: string, limit = 15) =>
 // ============ DICTIONARY ============
 export const searchDictionary = (word: string) => apiCall<any>(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
 
-// ============ GITHUB EXPLORER ============
-export const getGithubUser = (username: string) => apiCall<any>(`https://api.github.com/users/${encodeURIComponent(username)}`);
-export const getGithubRepos = (username: string) => apiCall<any>(`https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=updated&per_page=6`);
 
 // ============ RICK & MORTY ============
 export const searchRickAndMorty = (name: string) => apiCall<any>(`https://rickandmortyapi.com/api/character/?name=${encodeURIComponent(name)}`);
