@@ -1,6 +1,6 @@
 # 🎨 ONLY-STUDY-GELLERY
 
-> **Advanced Gallery + Media Player** with 21+ sections, 30+ free APIs, smart playlists, image groups, and YouTube auto-grouping.
+> **Advanced Gallery + Media Player** with 28+ sections, 35+ free APIs, smart playlists, image groups, and YouTube auto-grouping.
 
 🌐 **Live Demo**: https://only-study-gellery.pages.dev/  
 📦 **Repository**: https://github.com/SudhirDevOps1/ONLY-STUDY-GELLERY.git  
@@ -58,30 +58,38 @@ Optional official Unsplash key:
 - Fullscreen support
 - Image dimensions display
 
-### 🎮 20 Sections Powered by 30+ Free APIs
+### 🎮 28 Sections Powered by 35+ Free APIs
 
 | # | Section | Purpose |
 |---|---------|---------|
 | 1 | 📁 Gallery | Smart playlists + media |
-| 2 | 🛠️ Tools | IP, Dictionary, NASA, Animals |
-| 3 | 🌤️ Weather | GPS/IP auto-detect |
-| 4 | 🧮 Calculator | 20+ formulas |
-| 5 | 😂 Fun Zone | Jokes, Trivia, Facts |
-| 6 | 📰 News | BBC + TechCrunch |
-| 7 | 💰 Finance | Crypto + Currency |
-| 8 | 🎓 Education | Universities, Research |
-| 9 | 💻 Dev Tools | QR, UUID, Password |
-| 10 | 🍕 Food | Recipes + Cocktails |
-| 11 | 🎮 Pokemon | 1000+ Pokemon |
-| 12 | 🎌 Anime | MyAnimeList |
-| 13 | ❤️ Wellness | BMI, BMR, Health |
-| 14 | 🌏 Countries | 250 countries |
-| 15 | 🌍 World Clock | Timezones |
-| 16 | 👥 Social | Random users |
-| 17 | 🔮 Predictor | Age/Gender |
-| 18 | 📖 Reading | Posts, Lorem |
-| 19 | 🎨 Colors | Palettes |
-| 20 | 🛡️ More | (More APIs) |
+| 2 | 🖼️ Image Groups | Search high-quality Unsplash images |
+| 3 | 🛠️ Tools | IP, Password Gen, NASA APOD |
+| 4 | 🌤️ Weather | GPS/IP auto-detect weather forecasting |
+| 5 | 🧮 Calculator | 20+ formulas (BMI, EMI, SIP, etc) |
+| 6 | 😂 Fun Zone | Jokes, Quotes, Trivia, Facts |
+| 7 | 📰 News | BBC + TechCrunch RSS feeds |
+| 8 | 💰 Finance | Live Crypto + Currency Rates |
+| 9 | 🎓 Education | Global Universities search |
+| 10 | 💻 Dev Tools | QR code generation, UUID |
+| 11 | 🍕 Food | Meal & Cocktail recipes |
+| 12 | 🎮 Pokemon | 1000+ Pokemon Pokedex |
+| 13 | 🎌 Anime | MyAnimeList anime search |
+| 14 | ❤️ Wellness | Health trackers |
+| 15 | 🌏 Countries | 250+ countries details (ApiCountries) |
+| 16 | 🌍 World Clock | Live timezones |
+| 17 | 👥 Social | Random user generation |
+| 18 | 🔮 Predictor | Predict Age/Gender from Name |
+| 19 | 📖 Reading | Placeholder posts, Lorem Ipsum |
+| 20 | 🎨 Colors | Random palettes |
+| 21 | 🐕 Dog Breeds | Random dog pictures and breeds |
+| 22 | 📚 Books | Open Library book search |
+| 23 | 🏛️ Art Gallery | Metropolitan Museum of Art |
+| 24 | 🚀 SpaceX | Latest launches & rocket stats |
+| 25 | 🎵 Music | Jamendo free track previews |
+| 26 | 📖 Dictionary | Word meanings & audio pronunciation |
+| 27 | 🐙 GitHub | Explorer for users and repositories |
+| 28 | 🛸 Rick & Morty | Character multiverse browser |
 
 ---
 
