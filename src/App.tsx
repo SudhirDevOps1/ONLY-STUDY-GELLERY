@@ -27,7 +27,8 @@ import {
   NewsSection, EducationSection, DeveloperSection, FoodSection,
   PokemonSection, WellnessSection, WorldSection, SocialSection,
   NamePredictorSection, AnimeSection, CountriesSection, ReadingSection, ColorSection,
-  DogBreedsSection, BooksSection, ArtGallerySection, SpaceXSection, MusicSearchSection
+  DogBreedsSection, BooksSection, ArtGallerySection, SpaceXSection, MusicSearchSection,
+  DictionarySection, GithubSection, RickMortySection
 } from './components/sections/MoreSections';
 import { GroupsSection } from './components/sections/GroupsSection';
 
@@ -57,7 +58,10 @@ const SECTIONS = [
   { id: 'books', name: 'Books', icon: BookOpen, color: 'indigo', desc: 'Open Library' },
   { id: 'art', name: 'Art Gallery', icon: Sparkles, color: 'violet', desc: 'Met Museum' },
   { id: 'spacex', name: 'SpaceX', icon: Globe, color: 'blue', desc: 'Launches' },
-  { id: 'music', name: 'Music', icon: Music, color: 'green', desc: 'iTunes Search' },
+  { id: 'music', name: 'Music', icon: Music, color: 'green', desc: 'Jamendo Tracks' },
+  { id: 'dictionary', name: 'Dictionary', icon: BookOpen, color: 'fuchsia', desc: 'Word Meanings' },
+  { id: 'github', name: 'GitHub Explorer', icon: Code, color: 'gray', desc: 'Users & Repos' },
+  { id: 'rickmorty', name: 'Rick & Morty', icon: Users, color: 'teal', desc: 'Characters' },
 ];
 
 const App: React.FC = () => {
@@ -308,6 +312,9 @@ const App: React.FC = () => {
       case 'art': return <ArtGallerySection onAddMedia={addToGallery} showToast={showToast} />;
       case 'spacex': return <SpaceXSection />;
       case 'music': return <MusicSearchSection />;
+      case 'dictionary': return <DictionarySection />;
+      case 'github': return <GithubSection />;
+      case 'rickmorty': return <RickMortySection />;
       default: return <div className="p-8 text-center text-gray-400">Section coming soon...</div>;
     }
   };

@@ -998,9 +998,9 @@ export const SpaceXSection: React.FC = () => {
   );
 };
 
-// ===== MUSIC SEARCH (iTunes) =====
+// ===== MUSIC SEARCH (Jamendo) =====
 export const MusicSearchSection: React.FC = () => {
-  const [query, setQuery] = useState('Alan Walker');
+  const [query, setQuery] = useState('rock');
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState<string | null>(null);
@@ -1008,7 +1008,7 @@ export const MusicSearchSection: React.FC = () => {
   const search = async () => {
     if (!query.trim()) return;
     setLoading(true);
-    const r = await api.searchItunes(query, 15);
+    const r = await api.searchMusic(query, 15);
     if (r.success) setResults(r.data?.results || []);
     setLoading(false);
   };
@@ -1027,7 +1027,7 @@ export const MusicSearchSection: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-8">
-      <SectionHeader icon="🎵" title="Music Search" description="Search songs on iTunes and preview tracks (iTunes API)" />
+      <SectionHeader icon="🎵" title="Music Search" description="Search tracks and listen to previews (Jamendo API)" />
       <div className="flex gap-2 mb-6">
         <input value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && search()} placeholder="Search music (e.g. Imagine Dragons, BTS, Arijit Singh)" className="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white outline-none" />
         <button onClick={search} disabled={loading} className="bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-xl font-medium disabled:opacity-50">{loading ? 'Searching...' : 'Search'}</button>
@@ -1037,22 +1037,190 @@ export const MusicSearchSection: React.FC = () => {
           {results.map((track, i) => (
             <div key={i} className="bg-green-500/10 border border-green-500/30 rounded-xl p-4 hover:border-green-400/60 transition-colors">
               <div className="flex items-center gap-3">
-                <img src={track.artworkUrl100} alt="" className="w-16 h-16 rounded-lg flex-shrink-0" />
+                <img src={track.image} alt="" className="w-16 h-16 rounded-lg flex-shrink-0 object-cover" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-white truncate">{track.trackName}</p>
-                  <p className="text-xs text-gray-400 truncate">🎤 {track.artistName}</p>
-                  <p className="text-xs text-green-300 truncate">💿 {track.collectionName}</p>
+                  <p className="text-sm font-bold text-white truncate">{track.name}</p>
+                  <p className="text-xs text-gray-400 truncate">🎤 {track.artist_name}</p>
+                  <p className="text-xs text-green-300 truncate">💿 {track.album_name}</p>
                 </div>
               </div>
-              {track.previewUrl && (
+              {track.audio && (
                 <div className="mt-3">
-                  <button onClick={() => togglePlay(track.previewUrl)} className={`w-full text-xs py-2 rounded-lg font-medium transition-colors ${playing === track.previewUrl ? 'bg-red-600 hover:bg-red-500 text-white' : 'bg-green-600 hover:bg-green-500 text-white'}`}>
-                    {playing === track.previewUrl ? '⏹️ Stop Preview' : '▶️ Play Preview'}
+                  <button onClick={() => togglePlay(track.audio)} className={`w-full text-xs py-2 rounded-lg font-medium transition-colors ${playing === track.audio ? 'bg-red-600 hover:bg-red-500 text-white' : 'bg-green-600 hover:bg-green-500 text-white'}`}>
+                    {playing === track.audio ? '⏹️ Stop Preview' : '▶️ Play Preview'}
                   </button>
-                  {playing === track.previewUrl && <audio src={track.previewUrl} autoPlay onEnded={() => setPlaying(null)} />}
+                  {playing === track.audio && <audio src={track.audio} autoPlay onEnded={() => setPlaying(null)} />}
                 </div>
               )}
-              <p className="text-xs text-gray-500 mt-2">💰 {track.trackPrice ? `$${track.trackPrice}` : 'Free'} • {track.primaryGenreName}</p>
+              <p className="text-xs text-gray-500 mt-2">⏱️ {Math.floor(track.duration / 60)}:{(track.duration % 60).toString().padStart(2, '0')} • {track.license_ccurl ? 'Creative Commons' : 'Copyrighted'}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ===== DICTIONARY =====
+export const DictionarySection: React.FC = () => {
+  const [word, setWord] = useState('developer');
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+
+  const search = async () => {
+    if (!word) return;
+    setLoading(true);
+    const r = await api.searchDictionary(word);
+    if (r.success && Array.isArray(r.data)) setData(r.data[0]);
+    else setData(null);
+    setLoading(false);
+  };
+
+  useEffect(() => { search(); }, []);
+
+  const playAudio = (phonetics: any[]) => {
+    const audioUrl = phonetics?.find(p => p.audio)?.audio;
+    if (audioUrl) new Audio(audioUrl).play();
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto p-4 md:p-8">
+      <SectionHeader icon="📖" title="Dictionary" description="Search word meanings, synonyms, and pronunciation" />
+      <div className="flex gap-2 mb-6">
+        <input value={word} onChange={e => setWord(e.target.value)} onKeyDown={e => e.key === 'Enter' && search()} placeholder="Search a word..." className="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white outline-none" />
+        <button onClick={search} className="bg-fuchsia-600 hover:bg-fuchsia-500 text-white px-6 py-3 rounded-xl font-medium">Search</button>
+      </div>
+      {loading ? <LoadingSpinner /> : data ? (
+        <div className="bg-fuchsia-500/10 border border-fuchsia-500/30 rounded-2xl p-6">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h2 className="text-3xl font-bold text-white">{data.word}</h2>
+              <p className="text-fuchsia-400 mt-1">{data.phonetic}</p>
+            </div>
+            {data.phonetics?.some((p: any) => p.audio) && (
+              <button onClick={() => playAudio(data.phonetics)} className="w-12 h-12 bg-fuchsia-600 rounded-full flex items-center justify-center text-white hover:scale-105 transition-transform">🔊</button>
+            )}
+          </div>
+          {data.meanings?.map((m: any, i: number) => (
+            <div key={i} className="mb-6 last:mb-0">
+              <h3 className="text-lg font-bold text-white mb-2 italic border-b border-gray-700 pb-2">{m.partOfSpeech}</h3>
+              <ul className="space-y-3 mt-3">
+                {m.definitions?.slice(0, 3).map((d: any, j: number) => (
+                  <li key={j} className="text-gray-300">
+                    <span className="text-fuchsia-400 mr-2">•</span>{d.definition}
+                    {d.example && <p className="text-sm text-gray-500 mt-1 ml-4">"{d.example}"</p>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      ) : <p className="text-center text-gray-500 mt-8">Word not found or failed to load.</p>}
+    </div>
+  );
+};
+
+// ===== GITHUB EXPLORER =====
+export const GithubSection: React.FC = () => {
+  const [username, setUsername] = useState('octocat');
+  const [user, setUser] = useState<any>(null);
+  const [repos, setRepos] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const search = async () => {
+    if (!username) return;
+    setLoading(true);
+    const [uRes, rRes] = await Promise.all([api.getGithubUser(username), api.getGithubRepos(username)]);
+    if (uRes.success) setUser(uRes.data);
+    else setUser(null);
+    if (rRes.success) setRepos(rRes.data || []);
+    setLoading(false);
+  };
+
+  useEffect(() => { search(); }, []);
+
+  return (
+    <div className="max-w-6xl mx-auto p-4 md:p-8">
+      <SectionHeader icon="🐙" title="GitHub Explorer" description="Find GitHub users and their latest repositories" />
+      <div className="flex gap-2 mb-6 max-w-2xl mx-auto">
+        <input value={username} onChange={e => setUsername(e.target.value)} onKeyDown={e => e.key === 'Enter' && search()} placeholder="GitHub username..." className="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white outline-none" />
+        <button onClick={search} className="bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-xl font-medium">Search</button>
+      </div>
+      {loading ? <LoadingSpinner /> : user && user.login ? (
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="md:col-span-1 bg-gray-800/50 border border-gray-700 rounded-2xl p-6 text-center">
+            <img src={user.avatar_url} alt="" className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gray-700" />
+            <h2 className="text-2xl font-bold text-white">{user.name || user.login}</h2>
+            <p className="text-gray-400">@{user.login}</p>
+            <p className="text-sm text-gray-300 mt-4">{user.bio || 'No bio available'}</p>
+            <div className="flex justify-center gap-4 mt-6 text-sm text-gray-400">
+              <div><strong className="text-white text-lg">{user.followers}</strong><br/>Followers</div>
+              <div><strong className="text-white text-lg">{user.following}</strong><br/>Following</div>
+              <div><strong className="text-white text-lg">{user.public_repos}</strong><br/>Repos</div>
+            </div>
+            <a href={user.html_url} target="_blank" rel="noreferrer" className="inline-block w-full mt-6 bg-white text-black font-bold py-2 rounded-xl hover:bg-gray-200 transition-colors">View Profile</a>
+          </div>
+          <div className="md:col-span-2">
+            <h3 className="text-xl font-bold text-white mb-4">Latest Repositories</h3>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {repos.map((repo, i) => (
+                <a href={repo.html_url} target="_blank" rel="noreferrer" key={i} className="bg-gray-800/30 border border-gray-700 hover:border-gray-500 rounded-xl p-4 transition-colors block">
+                  <h4 className="text-lg font-bold text-blue-400 truncate">{repo.name}</h4>
+                  <p className="text-sm text-gray-400 mt-2 line-clamp-2">{repo.description || 'No description'}</p>
+                  <div className="flex gap-4 mt-4 text-xs text-gray-500">
+                    {repo.language && <span>🟢 {repo.language}</span>}
+                    <span>⭐ {repo.stargazers_count}</span>
+                    <span>🍴 {repo.forks_count}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : <p className="text-center text-gray-500 mt-8">User not found</p>}
+    </div>
+  );
+};
+
+// ===== RICK & MORTY =====
+export const RickMortySection: React.FC = () => {
+  const [name, setName] = useState('rick');
+  const [characters, setCharacters] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const search = async () => {
+    setLoading(true);
+    const r = await api.searchRickAndMorty(name || 'rick');
+    if (r.success) setCharacters(r.data?.results || []);
+    else setCharacters([]);
+    setLoading(false);
+  };
+
+  useEffect(() => { search(); }, []);
+
+  return (
+    <div className="max-w-7xl mx-auto p-4 md:p-8">
+      <SectionHeader icon="🛸" title="Rick and Morty" description="Search characters from the multiverse" />
+      <div className="flex gap-2 mb-6 max-w-xl mx-auto">
+        <input value={name} onChange={e => setName(e.target.value)} onKeyDown={e => e.key === 'Enter' && search()} placeholder="Character name..." className="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white outline-none" />
+        <button onClick={search} className="bg-teal-600 hover:bg-teal-500 text-white px-6 py-3 rounded-xl font-medium">Search</button>
+      </div>
+      {loading ? <LoadingSpinner /> : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {characters.map((c, i) => (
+            <div key={i} className="flex bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden shadow-lg hover:border-teal-500/50 transition-colors">
+              <img src={c.image} alt={c.name} className="w-32 h-full object-cover" />
+              <div className="p-4 flex-1">
+                <h3 className="text-lg font-bold text-white leading-tight">{c.name}</h3>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className={`w-2 h-2 rounded-full ${c.status === 'Alive' ? 'bg-green-500' : c.status === 'Dead' ? 'bg-red-500' : 'bg-gray-500'}`}></span>
+                  <span className="text-xs text-gray-300 font-medium">{c.status} - {c.species}</span>
+                </div>
+                <div className="mt-3">
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wider">Last known location:</p>
+                  <p className="text-sm text-white line-clamp-1">{c.location?.name}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>

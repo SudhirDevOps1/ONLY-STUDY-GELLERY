@@ -248,16 +248,36 @@ export const getMetArtObject = (objectId: number) =>
   apiCall<any>(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectId}`);
 
 // ============ SPACEX ============
-export const getSpacexLaunches = () =>
-  apiCall<any>('https://api.spacexdata.com/v4/launches/latest');
-export const getSpacexUpcoming = () =>
-  apiCall<any>('https://api.spacexdata.com/v4/launches/upcoming');
-export const getSpacexRockets = () =>
-  apiCall<any>('https://api.spacexdata.com/v4/rockets');
+export const getSpacexLaunches = async () => {
+  const r = await apiCall<any>('https://api.spacexdata.com/v4/launches/latest');
+  if (r.success) return r;
+  // Fallback mock data since SpaceX API is often down
+  return { success: true, data: { name: 'Mock Launch (API Offline)', date_utc: new Date().toISOString(), details: 'The SpaceX API is currently offline. This is placeholder data.', success: true, links: { patch: { small: 'https://images2.imgbox.com/3c/0e/T8iJcSN3_o.png' } } } };
+};
+export const getSpacexUpcoming = async () => {
+  const r = await apiCall<any>('https://api.spacexdata.com/v4/launches/upcoming');
+  if (r.success) return r;
+  return { success: true, data: [{ name: 'Starlink Group X (Mock)', date_utc: new Date(Date.now() + 86400000).toISOString() }, { name: 'Crew-X (Mock)', date_utc: new Date(Date.now() + 86400000 * 5).toISOString() }] };
+};
+export const getSpacexRockets = async () => {
+  const r = await apiCall<any>('https://api.spacexdata.com/v4/rockets');
+  if (r.success) return r;
+  return { success: true, data: [{ name: 'Falcon 9 (Mock)', company: 'SpaceX', country: 'United States', description: 'Placeholder data. SpaceX API is unreachable.', height: { meters: 70 }, mass: { kg: 549054 }, cost_per_launch: 50000000 }] };
+};
 
-// ============ ITUNES MUSIC SEARCH ============
-export const searchItunes = (term: string, limit = 10) =>
-  apiCall<any>(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&media=music&limit=${limit}`);
+// ============ MUSIC SEARCH (Jamendo) ============
+export const searchMusic = (term: string, limit = 15) =>
+  apiCall<any>(`https://api.jamendo.com/v3.0/tracks/?client_id=56d30c95&format=json&limit=${limit}&search=${encodeURIComponent(term)}`);
+
+// ============ DICTIONARY ============
+export const searchDictionary = (word: string) => apiCall<any>(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+
+// ============ GITHUB EXPLORER ============
+export const getGithubUser = (username: string) => apiCall<any>(`https://api.github.com/users/${encodeURIComponent(username)}`);
+export const getGithubRepos = (username: string) => apiCall<any>(`https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=updated&per_page=6`);
+
+// ============ RICK & MORTY ============
+export const searchRickAndMorty = (name: string) => apiCall<any>(`https://rickandmortyapi.com/api/character/?name=${encodeURIComponent(name)}`);
 
 // ============ RANDOM QUOTES ============
 export const getZenQuote = () => apiCall<any>('https://zenquotes.io/api/random');
